@@ -7,7 +7,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   server: {
-    host: '192.168.1.8'
+    host: 'localhost'
   },
   resolve: {
     alias: {
