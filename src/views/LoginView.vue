@@ -1,5 +1,20 @@
 <script setup lang="ts">
     import IconMatchintonLogo from '@/components/icons/IconMatchintonLogo.vue';
+import { ref } from 'vue';
+   
+    import { onMounted } from 'vue';
+
+    let users = ref([]);
+
+    onMounted(() => {
+        fetch("/api/users")
+        .then((res) => res.json())
+        .then((json) => {
+          users = json.users
+        })
+    });
+
+
 </script>
 <template>
     <div id="container-login">
@@ -7,8 +22,8 @@
         <div id="red"></div>
     </div>
     <div id="form-overlay">
-        <IconMatchintonLogo/>
     </div>
+    {{ users }}
 </template>
 <style scoped>
 
