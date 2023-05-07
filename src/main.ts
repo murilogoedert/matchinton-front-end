@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import 'vuetify/styles'
+import jQuery from "jquery";
 
 import { makeServer } from './mock/mirajeServer'
 
@@ -20,6 +21,8 @@ if (process.env.NODE_ENV === "development") {
     makeServer()
 }
 
+Object.assign(window, { $: jQuery, jQuery });
+
 app.use(createPinia())
 app.use(router)
 
@@ -32,3 +35,4 @@ const vuetify = createVuetify({
 app.use(vuetify);
 
 app.mount('#app')
+
