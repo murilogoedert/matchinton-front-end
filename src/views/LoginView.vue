@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import LoginForm from '@/components/LoginForm.vue';
-
-
+    import { ref } from 'vue';
+    import LoginForm from '@/components/LoginForm.vue';
 </script>
 <template>
     <div id="container-login">
         <div id="white">
-            <img src="../assets/logo.png">
+            <img src="../assets/logo.png" />
         </div>
         <div id="red"></div>
     </div>
@@ -45,8 +43,6 @@ import LoginForm from '@/components/LoginForm.vue';
     width: 100%;
     position: relative;
 }
-
-
 
 #form-overlay {
     width: 100%;

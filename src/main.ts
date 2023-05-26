@@ -26,7 +26,6 @@ Object.assign(window, { $: jQuery, jQuery });
 app.use(createPinia())
 app.use(router)
 
-
 const vuetify = createVuetify({
     components,
     directives
