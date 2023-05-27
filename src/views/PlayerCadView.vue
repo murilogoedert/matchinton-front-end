@@ -92,7 +92,7 @@
                 ></v-checkbox>
             </div> -->
         </div> 
-        <VBtn class="mt-2 btn-cad" @click="addPlayer">Inserir Atleta</VBtn>
+        <VBtn class="mt-2 btn-cad" @click="addPlayer">Inserir Jogador</VBtn>
     </div>    
 </template>
 <style scoped>
@@ -140,22 +140,4 @@
         color: #FFFF;
         background-color: var(--cor-vermelho);
     }
-
-    .short {
-        width: 10vh;
-    }
-
-    .medium {
-        width: 25vh;
-    }
-
-    .long {
-        width: 40vh;
-    }
-
-    .extraLong {
-        width: 52vh;
-    }
-
-
 </style>

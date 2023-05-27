@@ -1,0 +1,16 @@
+/* Size of inputs */
+.short {
+    width: 10vh;
+}
+
+.medium {
+    width: 25vh;
+}
+
+.long {
+    width: 40vh;
+}
+
+.extraLong {
+    width: 52vh;
+}
