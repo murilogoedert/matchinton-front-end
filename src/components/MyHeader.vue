@@ -1,10 +1,13 @@
 <script setup lang="ts">
     import { Icon } from '@iconify/vue';
+    import { useUserStore } from '@/stores/user';
+
+    const userStore = useUserStore();
 </script>
 <template>
     <div id="mainHeader">
         <div id="divImg">
-            <Router-link to="/home">
+            <Router-link to="/">
                 <div id="headerImg" onclick="">
                     <img src="../assets/banner.png" />
                 </div>   
@@ -14,7 +17,7 @@
             <Router-link to="/user">
                 <Icon icon="mdi:user" class="headerIcon"/>
             </Router-link>
-            <Icon icon="majesticons:logout-line" class="headerIcon" />
+            <Icon icon="majesticons:logout-line" class="headerIcon" @click=userStore.logout />
         </div>
     </div>
 </template>

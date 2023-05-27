@@ -1,12 +1,18 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
     const user = ref({})
 
     function login() {
-        //Realizar lgin
+        //Realizar login
+        console.log("Loguei");
     }
 
-    return { user, login }
+    function logout() {
+        //Realizar logout
+        console.log("Desloguei");
+    }
+
+    return { user, login, logout }
 })

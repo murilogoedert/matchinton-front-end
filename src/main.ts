@@ -1,6 +1,10 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+
 import 'vuetify/styles'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import '@mdi/font/css/materialdesignicons.css'
+
 import jQuery from "jquery";
 
 import { makeServer } from './mock/mirajeServer'
