@@ -7,6 +7,8 @@
     const playerStore = usePlayerStore();
     const name = ref("");
     const dtNasc =  ref(new Date());
+    const uf = ref("");
+    const cidade = ref("");
     const camp = ref("");
     const obs = ref("");
     const catgs = ref<string[]>([]);
@@ -30,13 +32,15 @@
     }
 
     function addPlayer() {
+        // Provisoriamente enviando somente dados de cadastro
         const player = {
             name: name.value,
-            dtNasc: dtNasc.value,
-            camp: camp.value,
-            obs: obs.value,
-            img: imageData.value,
-            catg: catgs.value
+            birth_date: dtNasc.value,
+            city: cidade.value,
+            state: uf.value,
+            observation: obs.value,
+            photo: imageData.value,
+            team_id: 4
         };
         
         playerStore.addPlayer(player);
@@ -47,19 +51,34 @@
     <div id="mainPlayer">
         <h2>Adicionar Jogador</h2>
         <div id="cadPlayer">
-            <div id="infoPlayer">
-                <v-text-field name="nome" label="Nome" id="nome" variant="solo" v-model="name"></v-text-field>
-                <v-text-field type="date" name="dtNasc" label="Data de Nascimento" id="dtNasc" variant="solo" v-model="dtNasc"></v-text-field>
-                <v-select
-                    label="Competição"
-                    :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-                    variant="solo"
-                    v-model="camp"
-                ></v-select>
-                <v-text-field name="obs" label="Observação" id="obs" variant="solo" v-model="obs"></v-text-field>               
-                <v-file-input name="img" label="Adicionar Imagem" id="img" prepend-icon="mdi-camera" variant="solo" @change="handlerImg"></v-file-input>
+            <div class="rowCadPlayer">
+                <v-text-field name="nome" label="Nome" id="nome" variant="solo" v-model="name" class="extraLong"></v-text-field>
             </div>
-            <div id="categories">
+            <div class="rowCadPlayer">
+                <v-text-field type="date" name="dtNasc" label="Data de Nascimento" id="dtNasc" variant="solo" v-model="dtNasc" class="medium"></v-text-field>
+                <v-file-input name="img" label="Adicionar Imagem" id="img" prepend-icon="mdi-camera" variant="solo" @change="handlerImg" class="medium img"></v-file-input>                
+            </div>                       
+            <div class="rowCadPlayer">
+                <v-select
+                    label="Estado"
+                    :items="['SC', 'PR', 'RS', 'SP', 'RJ']"
+                    variant="solo"
+                    v-model="uf"
+                    class="short"
+                ></v-select>
+                <v-text-field name="cidade" label="Cidade" id="cidade" variant="solo" v-model="cidade" class="long"></v-text-field>
+            </div>                        
+            <div class="rowCadPlayer">
+                <v-text-field name="obs" label="Observação" id="obs" variant="solo" v-model="obs" class="extraLong"></v-text-field>                               
+            </div>
+            <!-- Provisoriamente enviando somente dados de cadastro -->
+            <!-- <v-select
+                label="Competição"
+                :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                variant="solo"
+                v-model="camp"
+            ></v-select> -->          
+            <!-- <div id="categories">
                 <h3>Categorias</h3>
                 <v-checkbox
                     v-for="item in playerStore.getCatgs()"
@@ -71,8 +90,8 @@
                     density="compact"
                     hide-details
                 ></v-checkbox>
-            </div> 
-        </div>
+            </div> -->
+        </div> 
         <VBtn class="mt-2 btn-cad" @click="addPlayer">Inserir Atleta</VBtn>
     </div>    
 </template>
@@ -90,15 +109,23 @@
     }
 
     #cadPlayer {
-        margin-top: 4vh;
+        margin-top: 3vh;
 
         display: grid;
-        grid-template-columns: repeat(2, min-content);
-        column-gap: 10vh;
+        grid-template-rows: repeat(4, 1fr);
     }
 
-    #infoPlayer {     
-        width: 30vh;
+    .rowCadPlayer {
+        width: min-content;
+        position: relative;
+
+        display: grid;
+        grid-template-columns: min-content min-content;
+        column-gap: 2vh;
+    } 
+
+    .img {     
+        color: red;
     }
 
     #categories {
@@ -107,10 +134,28 @@
     }
 
     .btn-cad {
-        color: #FFFF;
-        background-color: var(--cor-vermelho);
-
         left: 50%;
         transform: translateX(-50%);
+
+        color: #FFFF;
+        background-color: var(--cor-vermelho);
     }
+
+    .short {
+        width: 10vh;
+    }
+
+    .medium {
+        width: 25vh;
+    }
+
+    .long {
+        width: 40vh;
+    }
+
+    .extraLong {
+        width: 52vh;
+    }
+
+
 </style>
