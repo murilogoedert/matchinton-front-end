@@ -14,3 +14,24 @@
 .extraLong {
     width: 52vh;
 }
+
+/* Mobile */
+@media (max-width: 993px) {
+
+    .short {
+        width: 10vh;
+    }
+    
+    .medium {
+        width: 20vh;
+    }
+    
+    .long {
+        width: 30vh;
+    }
+    
+    .extraLong {
+        width: 42vh;
+    }        
+
+}

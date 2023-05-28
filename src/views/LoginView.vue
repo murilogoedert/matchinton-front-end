@@ -128,6 +128,8 @@ goToRouteIfLoggedIn('/player');
     align-items: center;
 }
 
+
+/* Mobile */
 @media (max-width: 993px) {
 
     #red {
@@ -158,7 +160,6 @@ goToRouteIfLoggedIn('/player');
     #white img {
         width: 350px;
     }
-
 
 }
 </style>

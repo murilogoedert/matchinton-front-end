@@ -8,7 +8,6 @@ import type { Ref } from 'vue';
 import { ref } from 'vue';
 import type { AxiosResponse } from 'axios';
 
-
 //Caso não logado, volta para o /login
 goToLoginIfNotLoggedIn();
 
@@ -29,8 +28,6 @@ var error = false;
 
 const selectedFile: Ref<File | null> = ref(null);
 const imageData: Ref<string | null> = ref(null);
-
-
 
 function handlerImg(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -199,4 +196,5 @@ h3 {
     color: #FFFF;
     background-color: var(--cor-vermelho);
 }
+
 </style>

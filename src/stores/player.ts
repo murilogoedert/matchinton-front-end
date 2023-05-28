@@ -3,7 +3,7 @@ import axios from "axios";
 import { doPost } from "./api";
 import { useUserStore } from "./user";
 
-export interface Player{
+export interface Player {
     id?: number,
     name: string,
     observation: string,
@@ -17,7 +17,6 @@ export interface Player{
 }
 
 export const usePlayerStore = defineStore('player', () => {
-
 
     const categories = [
         { value: "main", text: "Principal" },
@@ -38,4 +37,5 @@ export const usePlayerStore = defineStore('player', () => {
     }
 
     return { getCatgs, addPlayer };
+    
 })

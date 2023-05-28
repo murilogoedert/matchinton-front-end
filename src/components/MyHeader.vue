@@ -92,4 +92,29 @@
 
         cursor: pointer;
     }
+
+    /* Mobile */
+    @media (max-width: 993px) {
+
+        #divImg {
+            justify-self: end;
+        }
+
+        #headerImg {
+            left: 12vh;
+        }
+
+        #headerImg img {
+            max-width: 20vh;
+        }
+
+        #icons {
+            margin-left: 5vh;
+        }
+
+        #nome-user {
+            display: none;
+        }
+
+    }
 </style>

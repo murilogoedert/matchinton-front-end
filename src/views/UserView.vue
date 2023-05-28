@@ -1,5 +1,9 @@
 <script setup lang="ts">
-    import MyHeader from '@/components/MyHeader.vue';
+import { goToLoginIfNotLoggedIn } from '@/common/commonFunctions';
+import MyHeader from '@/components/MyHeader.vue';
+
+//Caso não logado, volta para o /login
+goToLoginIfNotLoggedIn();
 
 </script>
 <template>
