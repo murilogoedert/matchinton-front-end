@@ -20,6 +20,7 @@ const cidade = ref("");
 const camp = ref("");
 const obs = ref("");
 const catgs = ref<string[]>([]);
+const isLoading = ref(false);
 
 const dialogActive = ref(false);
 const dialogBadgeColor = ref('green');
@@ -53,6 +54,7 @@ function routePlayer() {
 }
 
 function addPlayer() {
+    isLoading.value = true;
     // Provisoriamente enviando somente dados de cadastro
     const player = {
         name: name.value,
@@ -66,12 +68,14 @@ function addPlayer() {
 
     function errorDialog(e: any) {
         error = true;
+        isLoading.value = false;
         dialogBadgeColor.value = 'red';
         dialogMessage.value = 'Erro ao cadastrar jogador! ' + e;
         dialogActive.value = true;
     }
 
     function successDialog() {
+        isLoading.value = false;
         dialogBadgeColor.value = 'green';
         dialogMessage.value = 'Jogador cadastrado com sucesso!';
         dialogActive.value = true;
@@ -133,7 +137,7 @@ function addPlayer() {
                                 ></v-checkbox>
                             </div> -->
         </div>
-        <VBtn class="mt-2 btn-cad" @click="addPlayer">Inserir Jogador</VBtn>
+        <VBtn class="mt-2 btn-cad" :loading="isLoading" @click="addPlayer">Inserir Jogador</VBtn>
         <v-dialog v-model="dialogActive" transition="dialog-bottom-transition" width="auto">
             <template v-slot:default="{ isActive }">
                 <v-card>
