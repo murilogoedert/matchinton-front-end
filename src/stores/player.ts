@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { doPost } from "./api";
+import { API_URL, doPost } from "./api";
 import { useUserStore } from "./user";
 
 export interface Player {
@@ -32,10 +32,43 @@ export const usePlayerStore = defineStore('player', () => {
         return categories;
     }
 
+    function getPlayers() {
+        return [
+            { player: {
+                id: 1,
+                name: "Luis Felipe",
+                uf: "SC",
+                city: "Rio do Sul",
+                birth_date: "06/14/2001"
+            }, details: false},
+            { player: {
+                id: 2,                
+                name: "Luis Felipe",
+                uf: "SC",
+                city: "Rio do Sul",
+                birth_date: "06/14/2001"
+            }, details: false},
+            { player: {
+                id: 3,                
+                name: "Luis Felipe",
+                uf: "SC",
+                city: "Rio do Sul",
+                birth_date: "06/14/2001"
+            }, details: false},
+            { player: {
+                id: 4,                
+                name: "Luis Felipe",
+                uf: "SC",
+                city: "Rio do Sul",
+                birth_date: "06/14/2001"
+            }, details: false},
+        ];
+    }
+
     function addPlayer(player: Player) {
         return doPost('player', player, true);
     }
 
-    return { getCatgs, addPlayer };
+    return { getCatgs, addPlayer, getPlayers };
     
 })

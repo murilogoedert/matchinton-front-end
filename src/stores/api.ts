@@ -3,7 +3,6 @@ import axios, { type AxiosRequestConfig } from "axios";
 
 export const API_URL = 'https://matchinton-app-276wa.ondigitalocean.app';
 
-
 function getAuthHeader(): AxiosRequestConfig{
     const userStore = useUserStore();
     var currentUser = userStore.getUser();
@@ -28,5 +27,3 @@ export async function doUploadImagePlayer(playerId: number, data: File){
     form.append('file', data);
     return axios.post(API_URL + '/player/' + playerId + '/upload', form, config);
 }
-
-

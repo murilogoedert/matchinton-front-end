@@ -115,24 +115,24 @@ function addPlayer() {
             </div>
             <!-- Provisoriamente enviando somente dados de cadastro -->
             <!-- <v-select
-                                label="Competição"
-                                :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-                                variant="solo"
-                                v-model="camp"
-                            ></v-select> -->
+                    label="Competição"
+                    :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                    variant="solo"
+                    v-model="camp"
+                ></v-select> -->
             <!-- <div id="categories">
-                                <h3>Categorias</h3>
-                                <v-checkbox
-                                    v-for="item in playerStore.getCatgs()"
-                                    v-model="catgs"
-                                    :id="item.value"
-                                    :label="item.text"
-                                    :value="item.value"
-                                    color="red"
-                                    density="compact"
-                                    hide-details
-                                ></v-checkbox>
-                            </div> -->
+                <h3>Categorias</h3>
+                <v-checkbox
+                    v-for="item in playerStore.getCatgs()"
+                    v-model="catgs"
+                    :id="item.value"
+                    :label="item.text"
+                    :value="item.value"
+                    color="red"
+                    density="compact"
+                    hide-details
+                ></v-checkbox>
+            </div> -->
         </div>
         <VBtn class="mt-2 btn-cad" :loading="isLoading" @click="addPlayer">Inserir Jogador</VBtn>
         <v-dialog v-model="dialogActive" transition="dialog-bottom-transition" width="auto">
