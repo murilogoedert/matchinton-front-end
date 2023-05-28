@@ -17,8 +17,9 @@
             <Router-link to="/user">
                 <Icon icon="mdi:user" class="headerIcon"/>
             </Router-link>
+            <span id="nome-user" class="text-md-center tex">Olá {{ userStore.getUser().value?.name }}</span>
             <Icon icon="majesticons:logout-line" class="headerIcon" @click=userStore.logout />
-        </div>
+        </div> 
     </div>
 </template>
 <style scoped>
@@ -59,6 +60,11 @@
         cursor: pointer;
     }
 
+    #nome-user{
+        color: white;
+        font-weight: 600;
+    }
+
     #headerImg img {
         max-width: 25vh;
     }
@@ -68,9 +74,14 @@
 
         margin-left: 20vh;
 
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 2vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    #icons a{
+        margin-top: .3rem;
     }
 
     .headerIcon {

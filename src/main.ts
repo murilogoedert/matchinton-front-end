@@ -22,7 +22,7 @@ import '../src/assets/main.css';
 const app = createApp(App)
 
 if (process.env.NODE_ENV === "development") {
-    makeServer()
+    //makeServer()
 }
 
 Object.assign(window, { $: jQuery, jQuery });
