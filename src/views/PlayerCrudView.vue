@@ -92,7 +92,6 @@ function addPlayer() {
     <div id="mainPlayer">
         <h2>Adicionar Jogador</h2>
         <div id="cadPlayer">
-            <img src="https://matchinton-app-276wa.ondigitalocean.app/images/b52e19038857f0d92296a612b309e895">
             <div class="rowCadPlayer">
                 <v-text-field name="nome" label="Nome" id="nome" variant="solo" v-model="name"
                     class="extraLong"></v-text-field>
