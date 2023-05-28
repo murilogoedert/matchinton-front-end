@@ -13,8 +13,8 @@ function onLoginFail(message: string){
     dialogActive.value = true;
 }
 
-//Caso logado, redireciona para "/player" (Provisório ja que a home ainda não existe)
-goToRouteIfLoggedIn('/player');
+//Caso logado, redireciona para home
+goToRouteIfLoggedIn('/');
 
 
 </script>
