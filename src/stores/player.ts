@@ -36,48 +36,14 @@ export const usePlayerStore = defineStore('player', () => {
         return doGet("player/" + id, true);
     }
 
-    function getImagePlayer(img: string) {
-        return doGetImage(img, true);
-    }
-
     function getPlayers() {
         return doGet("player/team/4", true);
-        // return [
-        //     { player: {
-        //         id: 1,
-        //         name: "Luis Felipe",
-        //         uf: "SC",
-        //         city: "Rio do Sul",
-        //         birth_date: "06/14/2001"
-        //     }, details: false},
-        //     { player: {
-        //         id: 2,                
-        //         name: "Luis Felipe",
-        //         uf: "SC",
-        //         city: "Rio do Sul",
-        //         birth_date: "06/14/2001"
-        //     }, details: false},
-        //     { player: {
-        //         id: 3,                
-        //         name: "Luis Felipe",
-        //         uf: "SC",
-        //         city: "Rio do Sul",
-        //         birth_date: "06/14/2001"
-        //     }, details: false},
-        //     { player: {
-        //         id: 4,                
-        //         name: "Luis Felipe",
-        //         uf: "SC",
-        //         city: "Rio do Sul",
-        //         birth_date: "06/14/2001"
-        //     }, details: false},
-        // ];
     }
 
     function addPlayer(player: Player) {
         return doPost('player', player, true);
     }
 
-    return { getCatgs, addPlayer, getPlayer, getImagePlayer, getPlayers };
+    return { getCatgs, addPlayer, getPlayer, getPlayers };
     
 })

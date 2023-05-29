@@ -6,13 +6,42 @@
     import { onMounted, ref } from 'vue';
 
     const playerStore = usePlayerStore();
-    const players = ref<any[]>([]);
+    const players = [
+            { player: {
+                id: 1,
+                name: "Luis Felipe",
+                uf: "SC",
+                city: "Rio do Sul",
+                birth_date: "06/14/2001"
+            }, details: false},
+            { player: {
+                id: 2,                
+                name: "Luis Felipe",
+                uf: "SC",
+                city: "Rio do Sul",
+                birth_date: "06/14/2001"
+            }, details: false},
+            { player: {
+                id: 3,                
+                name: "Luis Felipe",
+                uf: "SC",
+                city: "Rio do Sul",
+                birth_date: "06/14/2001"
+            }, details: false},
+            { player: {
+                id: 4,                
+                name: "Luis Felipe",
+                uf: "SC",
+                city: "Rio do Sul",
+                birth_date: "06/14/2001"
+            }, details: false},
+        ];
     
     goToLoginIfNotLoggedIn();
 
     onMounted(() => {
         console.log(playerStore.getPlayers());
-        players.value = playerStore.getPlayers();
+        // players.value = playerStore.getPlayers();
     })
 </script>
 <template>
