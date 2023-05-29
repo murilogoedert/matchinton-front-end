@@ -41,36 +41,37 @@ export const usePlayerStore = defineStore('player', () => {
     }
 
     function getPlayers() {
-        return [
-            { player: {
-                id: 1,
-                name: "Luis Felipe",
-                uf: "SC",
-                city: "Rio do Sul",
-                birth_date: "06/14/2001"
-            }, details: false},
-            { player: {
-                id: 2,                
-                name: "Luis Felipe",
-                uf: "SC",
-                city: "Rio do Sul",
-                birth_date: "06/14/2001"
-            }, details: false},
-            { player: {
-                id: 3,                
-                name: "Luis Felipe",
-                uf: "SC",
-                city: "Rio do Sul",
-                birth_date: "06/14/2001"
-            }, details: false},
-            { player: {
-                id: 4,                
-                name: "Luis Felipe",
-                uf: "SC",
-                city: "Rio do Sul",
-                birth_date: "06/14/2001"
-            }, details: false},
-        ];
+        return doGet("player/team/4", true);
+        // return [
+        //     { player: {
+        //         id: 1,
+        //         name: "Luis Felipe",
+        //         uf: "SC",
+        //         city: "Rio do Sul",
+        //         birth_date: "06/14/2001"
+        //     }, details: false},
+        //     { player: {
+        //         id: 2,                
+        //         name: "Luis Felipe",
+        //         uf: "SC",
+        //         city: "Rio do Sul",
+        //         birth_date: "06/14/2001"
+        //     }, details: false},
+        //     { player: {
+        //         id: 3,                
+        //         name: "Luis Felipe",
+        //         uf: "SC",
+        //         city: "Rio do Sul",
+        //         birth_date: "06/14/2001"
+        //     }, details: false},
+        //     { player: {
+        //         id: 4,                
+        //         name: "Luis Felipe",
+        //         uf: "SC",
+        //         city: "Rio do Sul",
+        //         birth_date: "06/14/2001"
+        //     }, details: false},
+        // ];
     }
 
     function addPlayer(player: Player) {

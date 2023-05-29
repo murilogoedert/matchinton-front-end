@@ -3,7 +3,7 @@ import { goToLoginIfNotLoggedIn } from '@/common/commonFunctions';
 import MyHeader from '@/components/MyHeader.vue';
 import router from '@/router';
 import { usePlayerStore, type Player } from '@/stores/player';
-import { doUploadImagePlayer } from '@/stores/api';
+import { IMG_URL, doUploadImagePlayer } from '@/stores/api';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 import type { AxiosResponse } from 'axios';
@@ -43,6 +43,15 @@ const player = ref({
 const imgSearch = ref("");
 
 onMounted(() => {
+    // playerStore.getPlayers()
+    //     .then((response) => {
+    //         console.log(response.data)
+    //     })
+    //     .catch((e) => {
+    //         console.log(e);
+    //     })
+    
+
     if (route.params.id) {
         isLoading.value = true;
         error = false;
@@ -51,19 +60,6 @@ onMounted(() => {
             .then((response) => {
                 player.value = response.data;
                 isLoading.value = false;
-
-                // Verificar CORS
-                // playerStore.getImagePlayer(response.data.photo)
-                //     .then(() => {
-                //         imgSearch.value = response.data;
-                //     })
-                //     .catch((e) => {
-                //         error = true;
-                //         isLoading.value = false;
-                //         dialogBadgeColor.value = 'red';
-                //         dialogMessage.value = 'Erro ao consultar jogador! ' + e;
-                //         dialogActive.value = true;
-                //     });
             })
             .catch((e) => {
                 error = true;
@@ -195,28 +191,28 @@ function addPlayer() {
             </v-card-title>
         </v-card>
         <h2>Consultar Jogador</h2>
-        <div id="cadPlayer">
+            <v-img
+                :width="200"
+                aspect-ratio="1/1"
+                cover
+                :src="IMG_URL + '/' + player.photo"
+            ></v-img>
+            <div id="cadPlayer">
             <div class="rowCadPlayer">
                 <v-text-field name="nome" :label="player.name" id="nome" variant="solo"
-                    class="extraLong" disabled></v-text-field>
+                    class="extraLong"></v-text-field>
             </div>
             <div class="rowCadPlayer">
                 <v-text-field type="text" name="dtNasc" :label="new Date(player.birth_date).toLocaleDateString()" id="dtNasc" variant="solo"
-                    class="medium" disabled ></v-text-field>
-                <!-- <v-img
-                    :width="200"
-                    aspect-ratio="1/1"
-                    cover
-                    src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-                ></v-img>                     -->
+                    class="medium"></v-text-field>
             </div>
             <div class="rowCadPlayer">
-                <v-select :label="player.state" variant="solo" class="short" disabled ></v-select>
-                <v-text-field name="cidade" :label="player.city" id="cidade" variant="solo" class="long" disabled ></v-text-field>
+                <v-select :label="player.state" variant="solo" class="short"></v-select>
+                <v-text-field name="cidade" :label="player.city" id="cidade" variant="solo" class="long"></v-text-field>
             </div>
             <div class="rowCadPlayer">
                 <v-text-field name="obs" :label="player.observation" id="obs" variant="solo"
-                    class="extraLong" disabled ></v-text-field>
+                    class="extraLong"></v-text-field>
             </div>
         </div>
     </div>
@@ -246,6 +242,7 @@ function addPlayer() {
 #mainPlayer h2,
 h3 {
     color: var(--cor-vermelho);
+    margin-bottom: 1vh;
 }
 
 #cadPlayer {
@@ -280,5 +277,4 @@ h3 {
     color: #FFFF;
     background-color: var(--cor-vermelho);
 }
-
 </style>
