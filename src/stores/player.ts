@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { API_URL, doPost } from "./api";
+import { API_URL, doGet, doGetImage, doPost } from "./api";
 import { useUserStore } from "./user";
 
 export interface Player {
@@ -30,6 +30,14 @@ export const usePlayerStore = defineStore('player', () => {
 
     function getCatgs() {
         return categories;
+    }
+
+    function getPlayer(id: string | string[]) {
+        return doGet("player/" + id, true);
+    }
+
+    function getImagePlayer(img: string) {
+        return doGetImage(img, true);
     }
 
     function getPlayers() {
@@ -69,6 +77,6 @@ export const usePlayerStore = defineStore('player', () => {
         return doPost('player', player, true);
     }
 
-    return { getCatgs, addPlayer, getPlayers };
+    return { getCatgs, addPlayer, getPlayer, getImagePlayer, getPlayers };
     
 })

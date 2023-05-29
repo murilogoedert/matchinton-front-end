@@ -7,6 +7,8 @@ import { doUploadImagePlayer } from '@/stores/api';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 import type { AxiosResponse } from 'axios';
+import { useRoute } from 'vue-router';
+import { onMounted } from 'vue';
 
 //Caso não logado, volta para o /login
 goToLoginIfNotLoggedIn();
@@ -28,6 +30,49 @@ var error = false;
 
 const selectedFile: Ref<File | null> = ref(null);
 const imageData: Ref<string | null> = ref(null);
+
+const route = useRoute();
+const player = ref({
+    name: "",
+    birth_date: "",
+    state: "",
+    city: "",
+    observation: "",
+    photo: ""
+});
+const imgSearch = ref("");
+
+onMounted(() => {
+    if (route.params.id) {
+        isLoading.value = true;
+        error = false;
+
+        playerStore.getPlayer(route.params.id)
+            .then((response) => {
+                player.value = response.data;
+
+                // Verificar CORS
+                // playerStore.getImagePlayer(response.data.photo)
+                //     .then(() => {
+                //         imgSearch.value = response.data;
+                //     })
+                //     .catch((e) => {
+                //         error = true;
+                //         isLoading.value = false;
+                //         dialogBadgeColor.value = 'red';
+                //         dialogMessage.value = 'Erro ao consultar jogador! ' + e;
+                //         dialogActive.value = true;
+                //     });
+            })
+            .catch((e) => {
+                error = true;
+                isLoading.value = false;
+                dialogBadgeColor.value = 'red';
+                dialogMessage.value = 'Erro ao consultar jogador! ' + e;
+                dialogActive.value = true;
+            });
+    }    
+})
 
 function handlerImg(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -52,6 +97,7 @@ function routePlayer() {
 
 function addPlayer() {
     isLoading.value = true;
+
     // Provisoriamente enviando somente dados de cadastro
     const player = {
         name: name.value,
@@ -78,7 +124,6 @@ function addPlayer() {
         dialogActive.value = true;
     }
 
-
     playerStore.addPlayer(player).then((response: AxiosResponse<Player>) => {
         error = false;
         let newPlayer = response.data;
@@ -90,11 +135,13 @@ function addPlayer() {
 </script>
 <template>
     <MyHeader />
-    <div id="mainPlayer">
+    <!-- Para adicionar um novo player -->
+    <div id="mainPlayer" v-if="!route.params.id">
         <h2>Adicionar Jogador</h2>
         <div id="cadPlayer">
             <div class="rowCadPlayer">
-                <v-text-field name="nome" label="Nome" id="nome" variant="solo" v-model="name"
+                <v-text-field 
+                    name="nome" label="Nome" id="nome" variant="solo" v-model="name"
                     class="extraLong"></v-text-field>
             </div>
             <div class="rowCadPlayer">
@@ -135,20 +182,48 @@ function addPlayer() {
             </div> -->
         </div>
         <VBtn class="mt-2 btn-cad" :loading="isLoading" @click="addPlayer">Inserir Jogador</VBtn>
-        <v-dialog v-model="dialogActive" transition="dialog-bottom-transition" width="auto">
-            <template v-slot:default="{ isActive }">
-                <v-card>
-                    <v-toolbar id="dialog-badge" :color="dialogBadgeColor"></v-toolbar>
-                    <v-card-text>
-                        <div class="text-h5 pa-3">{{ dialogMessage }}</div>
-                    </v-card-text>
-                    <v-card-actions class="justify-end">
-                        <v-btn variant="text" @click="routePlayer">Fechar</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </template>
-        </v-dialog>
     </div>
+    <!-- Para visualizar um player cadastrado -->
+    <div id="mainPlayer" v-if="route.params.id">
+        <h2>Consultar Jogador</h2>
+        <div id="cadPlayer">
+            <div class="rowCadPlayer">
+                <v-text-field name="nome" :label="player.name" id="nome" variant="solo"
+                    class="extraLong" disabled></v-text-field>
+            </div>
+            <div class="rowCadPlayer">
+                <v-text-field type="text" name="dtNasc" :label="new Date(player.birth_date).toLocaleDateString()" id="dtNasc" variant="solo"
+                    class="medium" disabled ></v-text-field>
+                <!-- <v-img
+                    :width="200"
+                    aspect-ratio="1/1"
+                    cover
+                    src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                ></v-img>                     -->
+            </div>
+            <div class="rowCadPlayer">
+                <v-select :label="player.state" variant="solo" class="short" disabled ></v-select>
+                <v-text-field name="cidade" :label="player.city" id="cidade" variant="solo" class="long" disabled ></v-text-field>
+            </div>
+            <div class="rowCadPlayer">
+                <v-text-field name="obs" :label="player.observation" id="obs" variant="solo"
+                    class="extraLong" disabled ></v-text-field>
+            </div>
+        </div>
+    </div>
+    <v-dialog v-model="dialogActive" transition="dialog-bottom-transition" width="auto">
+        <template v-slot:default="{ isActive }">
+            <v-card>
+                <v-toolbar id="dialog-badge" :color="dialogBadgeColor"></v-toolbar>
+                <v-card-text>
+                    <div class="text-h5 pa-3">{{ dialogMessage }}</div>
+                </v-card-text>
+                <v-card-actions class="justify-end">
+                    <v-btn variant="text" @click="routePlayer">Fechar</v-btn>
+                </v-card-actions>
+            </v-card>
+        </template>
+    </v-dialog>
 </template>
 <style scoped>
 #mainPlayer {

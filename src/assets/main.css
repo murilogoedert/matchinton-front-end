@@ -1,18 +1,18 @@
 /* Size of inputs */
 .short {
-    width: 10vh;
+    width: 15vh;
 }
 
 .medium {
-    width: 25vh;
+    width: 35vh;
 }
 
 .long {
-    width: 40vh;
+    width: 55vh;
 }
 
 .extraLong {
-    width: 52vh;
+    width: 72vh;
 }
 
 /* Mobile */

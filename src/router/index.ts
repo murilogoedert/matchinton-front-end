@@ -20,8 +20,9 @@ const router = createRouter({
       component: LoginView
     },
     // Rota para tela de cadastro de jogador
+    // Prop opcional id para visualizar um jogador ja cadastrado
     {
-      path: '/player',
+      path: '/player/:id?',
       name: 'player',
       component: PlayerCrudView
     },
