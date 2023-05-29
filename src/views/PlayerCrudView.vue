@@ -34,7 +34,7 @@ const imageData: Ref<string | null> = ref(null);
 const route = useRoute();
 const player = ref({
     name: "",
-    birth_date: "",
+    birth_date: "2023-05-26T00:09:55.795Z",
     state: "",
     city: "",
     observation: "",
@@ -50,6 +50,7 @@ onMounted(() => {
         playerStore.getPlayer(route.params.id)
             .then((response) => {
                 player.value = response.data;
+                isLoading.value = false;
 
                 // Verificar CORS
                 // playerStore.getImagePlayer(response.data.photo)
@@ -185,6 +186,14 @@ function addPlayer() {
     </div>
     <!-- Para visualizar um player cadastrado -->
     <div id="mainPlayer" v-if="route.params.id">
+        <v-card :loading="isLoading" v-if="isLoading">
+            <v-overlay :value="isLoading">
+                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            </v-overlay>
+            <v-card-title>
+                <h3>Recuperando Dados...</h3>
+            </v-card-title>
+        </v-card>
         <h2>Consultar Jogador</h2>
         <div id="cadPlayer">
             <div class="rowCadPlayer">
