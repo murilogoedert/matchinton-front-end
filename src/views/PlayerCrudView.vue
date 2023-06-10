@@ -21,8 +21,8 @@ const cidade = ref("");
 const camp = ref("");
 const obs = ref("");
 const catgs = ref<string[]>([]);
-const isLoading = ref(false);
 
+const isLoading = ref(false);
 const dialogActive = ref(false);
 const dialogBadgeColor = ref('green');
 const dialogMessage = ref('');
@@ -43,15 +43,6 @@ const player = ref({
 const imgSearch = ref("");
 
 onMounted(() => {
-    // playerStore.getPlayers()
-    //     .then((response) => {
-    //         console.log(response.data)
-    //     })
-    //     .catch((e) => {
-    //         console.log(e);
-    //     })
-    
-
     if (route.params.id) {
         isLoading.value = true;
         error = false;
@@ -219,6 +210,7 @@ function addPlayer() {
             </div>
         </div>
     </div>
+    <!-- Mensagem de erro -->
     <v-dialog v-model="dialogActive" transition="dialog-bottom-transition" width="auto">
         <template v-slot:default="{ isActive }">
             <v-card>

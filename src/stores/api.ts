@@ -21,6 +21,13 @@ export async function doPost(route: string, data: object, auth?: boolean) {
     return axios.post(API_URL + '/' + route, data);
 }
 
+export async function doPatch(route: string, data: object, auth?: boolean) {
+    if (auth) {
+        return axios.patch(API_URL + '/' + route, data, getAuthHeader());
+    }
+    return axios.patch(API_URL + '/' + route, data);
+}
+
 export async function doGet(route: string, auth?: boolean) {
     if (auth) {
         return axios.get(API_URL + '/' + route, getAuthHeader());

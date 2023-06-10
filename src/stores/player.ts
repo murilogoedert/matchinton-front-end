@@ -18,20 +18,6 @@ export interface Player {
 
 export const usePlayerStore = defineStore('player', () => {
 
-    const categories = [
-        { value: "main", text: "Principal" },
-        { value: "23", text: "Sub-23" },
-        { value: "19", text: "Sub-19" },
-        { value: "17", text: "Sub-17" },
-        { value: "15", text: "Sub-16" },
-        { value: "13", text: "Sub-13" },
-        { value: "11", text: "Sub-11" },
-    ]
-
-    function getCatgs() {
-        return categories;
-    }
-
     function getPlayer(id: string | string[]) {
         return doGet("player/" + id, true);
     }
@@ -44,6 +30,6 @@ export const usePlayerStore = defineStore('player', () => {
         return doPost('player', player, true);
     }
 
-    return { getCatgs, addPlayer, getPlayer, getPlayers };
+    return { addPlayer, getPlayer, getPlayers };
     
 })
