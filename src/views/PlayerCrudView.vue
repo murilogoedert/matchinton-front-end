@@ -191,28 +191,31 @@ function addPlayer() {
             </v-card-title>
         </v-card>
         <h2>Consultar Jogador</h2>
+        <div id="getPlayer">
             <v-img
                 :width="200"
                 aspect-ratio="1/1"
                 cover
                 :src="IMG_URL + '/' + player.photo"
+                id="imgPlayer"
             ></v-img>
             <div id="cadPlayer">
-            <div class="rowCadPlayer">
-                <v-text-field name="nome" :label="player.name" id="nome" variant="solo"
-                    class="extraLong"></v-text-field>
-            </div>
-            <div class="rowCadPlayer">
-                <v-text-field type="text" name="dtNasc" :label="new Date(player.birth_date).toLocaleDateString()" id="dtNasc" variant="solo"
-                    class="medium"></v-text-field>
-            </div>
-            <div class="rowCadPlayer">
-                <v-select :label="player.state" variant="solo" class="short"></v-select>
-                <v-text-field name="cidade" :label="player.city" id="cidade" variant="solo" class="long"></v-text-field>
-            </div>
-            <div class="rowCadPlayer">
-                <v-text-field name="obs" :label="player.observation" id="obs" variant="solo"
-                    class="extraLong"></v-text-field>
+                <div class="rowCadPlayer">
+                    <v-text-field name="nome" :label="player.name" id="nome" variant="solo"
+                        class="extraLong"></v-text-field>
+                </div>
+                <div class="rowCadPlayer">
+                    <v-text-field type="text" name="dtNasc" :label="new Date(player.birth_date).toLocaleDateString()" id="dtNasc" variant="solo"
+                        class="medium"></v-text-field>
+                </div>
+                <div class="rowCadPlayer">
+                    <v-select :label="player.state" variant="solo" class="short"></v-select>
+                    <v-text-field name="cidade" :label="player.city" id="cidade" variant="solo" class="long"></v-text-field>
+                </div>
+                <div class="rowCadPlayer">
+                    <v-text-field name="obs" :label="player.observation" id="obs" variant="solo"
+                        class="extraLong"></v-text-field>
+                </div>
             </div>
         </div>
     </div>
@@ -277,4 +280,16 @@ h3 {
     color: #FFFF;
     background-color: var(--cor-vermelho);
 }
+
+#getPlayer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 2vh;
+}
+
+#imgPlayer {
+    border: 1px solid var(--cor-vermelho);
+    border-radius: 7px;
+}
+
 </style>
