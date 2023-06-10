@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import PlayerCrudView from '../views/PlayerCrudView.vue'
+import CompetitionCrudView from '../views/CompetitionCrudView.vue'
 import HomeView from '../views/HomeView.vue'
 import UserView from '@/views/UserView.vue'
 
@@ -26,6 +27,13 @@ const router = createRouter({
       name: 'player',
       component: PlayerCrudView
     },
+    // Rota para tela de cadastro de competição
+    // Prop opcional id para visualizar uma competição ja cadastrado
+    {
+      path: '/competition/:id?',
+      name: 'competition',
+      component: CompetitionCrudView
+    },    
     // Rota para tela de cadastro de usuário
     {
       path: '/user',

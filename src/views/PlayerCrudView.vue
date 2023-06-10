@@ -273,14 +273,6 @@ h3 {
     justify-content: center;
 }
 
-.btn-cad {
-    left: 50%;
-    transform: translateX(-50%);
-
-    color: #FFFF;
-    background-color: var(--cor-vermelho);
-}
-
 #getPlayer {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
