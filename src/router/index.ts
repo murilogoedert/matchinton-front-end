@@ -4,6 +4,7 @@ import PlayerCrudView from '../views/PlayerCrudView.vue'
 import CompetitionCrudView from '../views/CompetitionCrudView.vue'
 import HomeView from '../views/HomeView.vue'
 import UserView from '@/views/UserView.vue'
+import SignUpView from '@/views/SignUpView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +20,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: SignUpView
     },
     // Rota para tela de cadastro de jogador
     // Prop opcional id para visualizar um jogador ja cadastrado

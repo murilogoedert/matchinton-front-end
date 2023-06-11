@@ -1,20 +1,33 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LoginForm from '@/components/LoginForm.vue';
-import { goToRoute, goToRouteIfLoggedIn } from '@/common/commonFunctions';
+import { goToRouteIfLoggedIn, goToRoute } from '@/common/commonFunctions';
+import SignupForm from '@/components/SignupForm.vue';
 
 
 const dialogActive = ref(false);
 const loginMessage = ref("");
+const badgeColor = ref('red');
 
 
-function onLoginFail(message: string){
+function onSignupFail(message: string){
+    badgeColor.value = 'red';
     loginMessage.value = message;
     dialogActive.value = true;
 }
 
+function onSignUpSuccess(){
+    badgeColor.value = 'green';
+    loginMessage.value = 'Usuário cadastrado com sucesso!';
+    dialogActive.value = true;
+
+    setTimeout(() => {
+        goToRoute('/login');
+    }, 1000);
+}
+
 //Caso logado, redireciona para home
 goToRouteIfLoggedIn('/');
+
 
 </script>
 <template>
@@ -26,20 +39,15 @@ goToRouteIfLoggedIn('/');
     </div>
     <div id="form-overlay">
         <div id="login-form">
-            <span id="text-welcome">Bem vindo de Volta!</span>
+            <span id="text-welcome">Seja bem vindo!</span>
             
-            <LoginForm login-success-route="/player"  @login-fail="onLoginFail" />
-
-            <span id="signup-text">
-                Novo por aqui?
-                <button @click="goToRoute('/signup')">Cadastre-se</button>
-            </span>
+            <SignupForm @sign-up-fail="onSignupFail" @sign-up-success="onSignUpSuccess" />
         </div>
     </div>
     <v-dialog v-model="dialogActive" transition="dialog-bottom-transition" width="auto">
         <template v-slot:default="{ isActive }">
             <v-card>
-                <v-toolbar id="dialog-badge" color="red">Erro</v-toolbar>
+                <v-toolbar id="dialog-badge" :color="badgeColor">Erro</v-toolbar>
                 <v-card-text>
                     <div class="text-h5 pa-3">{{ loginMessage }}</div>
                 </v-card-text>
@@ -98,7 +106,7 @@ goToRouteIfLoggedIn('/');
     background-color: white;
     border: 2px solid var(--cor-vermelho);
     border-radius: .6rem;
-    height: 50vh;
+    height: 60vh;
     width: 30vw;
     display: grid;
     grid-template-rows: 2fr 5fr 1fr;
