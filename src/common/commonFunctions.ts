@@ -8,6 +8,10 @@ export function goToLoginIfNotLoggedIn() {
     }
 }
 
+export function goToRoute(route: string){
+    router.push(route);
+}
+
 export function goToRouteIfLoggedIn(route: string){
     const userStore = useUserStore();
     if ((userStore.getUser()).value?.id != undefined) {

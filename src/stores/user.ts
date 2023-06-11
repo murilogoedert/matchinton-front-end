@@ -48,6 +48,12 @@ export const useUserStore = defineStore('user', () => {
         return globalUser;
     }
 
+    async function signup(name: string, username: string, phone: string, password: string){
+        return axios.post<User>(API_URL + '/user', {'name': name, 'username': username, 'password': password, 'phone': phone, 'type': 'USER'},{
+            validateStatus: () => true
+        })
+    }
+
     function logout() {
         globalUser.value = undefined;
         cookiesHandle.remove('user');
@@ -66,5 +72,5 @@ export const useUserStore = defineStore('user', () => {
         return globalUser;
     }
 
-    return { getUser, login, logout }
+    return { getUser, login, logout, signup }
 })
