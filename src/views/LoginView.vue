@@ -13,8 +13,8 @@ function onLoginFail(message: string){
     dialogActive.value = true;
 }
 
-//Caso logado, redireciona para tela de cadastro de players (provisório enquanto a home não esta pronta)
-goToRouteIfLoggedIn('/player');
+//Caso logado, redireciona para home
+goToRouteIfLoggedIn('/');
 
 </script>
 <template>

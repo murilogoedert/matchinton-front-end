@@ -28,22 +28,11 @@ const route = useRoute();
 const competition = ref({
     name: "",
     start_date: "2023-05-26T00:09:55.795Z",
-    end_date: "2023-05-26T00:09:55.795Z"    
+    end_date: "2023-05-26T00:09:55.795Z",
+    competition_category: []
 });
 
 onMounted(() => { 
-    // compStore.getComps()
-    //         .then((response) => {
-    //             console.log(response.data);
-    //         })
-    //         .catch((e) => {
-    //             error = true;
-    //             isLoading.value = false;
-    //             dialogBadgeColor.value = 'red';
-    //             dialogMessage.value = 'Erro ao consultar competição! ' + e;
-    //             dialogActive.value = true;
-    //         });
-
     isLoading.value = true;
     error = false;
 
@@ -69,9 +58,8 @@ onMounted(() => {
         compStore.getCompetition(route.params.id)
             .then((response) => {
                 competition.value = response.data;
+                fillCatgs();
                 isLoading.value = false;
-
-                console.log(response.data);
             })
             .catch((e) => {
                 error = true;
@@ -115,6 +103,14 @@ function routePlayer() {
     if (!error) {
         router.go(0);
     }
+}
+
+// Para preencher as categorias ao consultar uma competicao
+// Adiciona o id das categorias para prencher os checkboxes
+function fillCatgs() {
+    competition.value.competition_category.forEach((element: any) => {
+        compCatgs.value.push(element.id);
+    });
 }
 
 </script>
@@ -175,7 +171,6 @@ function routePlayer() {
                 <v-text-field 
                     type="text" name="dtEnd" :label="new Date(competition.end_date).toLocaleDateString()" id="dtEnd" variant="solo" class="medium"
                 ></v-text-field>
-                <VBtn class="mt-2 btn-cad">Inserir Competição</VBtn>
             </div>
             <div class="colCadComp">
                 <div id="categories">
@@ -188,6 +183,7 @@ function routePlayer() {
                         color="red"
                         density="compact"
                         hide-details
+                        v-model="compCatgs"
                     ></v-checkbox>
                 </div>
             </div>
