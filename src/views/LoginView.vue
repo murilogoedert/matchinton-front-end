@@ -28,7 +28,7 @@ goToRouteIfLoggedIn('/');
         <div id="login-form">
             <span id="text-welcome">Bem vindo de Volta!</span>
             
-            <LoginForm login-success-route="/player"  @login-fail="onLoginFail" />
+            <LoginForm login-success-route="/"  @login-fail="onLoginFail" />
 
             <span id="signup-text">
                 Novo por aqui?

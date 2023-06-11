@@ -87,24 +87,33 @@ function toggleDetails(index: number) {
     </v-dialog>  
 </template>
 <style scoped>
-    #mainHome {
-        position: absolute;
-        top: 16vh;
+#mainHome {
+    position: absolute;
+    top: 16vh;
 
-        left: 50%;
-        transform: translateX(-50%);
-    }
+    left: 50%;
+    transform: translateX(-50%);
+}
 
-    #mainHome h2 {
-        color: var(--cor-vermelho);
-    }
+#mainHome h2 {
+    color: var(--cor-vermelho);
+}
+
+#players {
+    margin-top: 3vh;
+
+    display: grid;
+    grid-template-columns: repeat(3, min-content);
+    column-gap: 2vh;
+    row-gap: 2vh;
+}
+
+    /* Mobile */
+@media (max-width: 993px) {
 
     #players {
-        margin-top: 3vh;
-
-        display: grid;
-        grid-template-columns: repeat(3, min-content);
-        column-gap: 2vh;
-        row-gap: 2vh;
+        grid-template-columns: repeat(1, min-content);
     }
+
+}
 </style>
