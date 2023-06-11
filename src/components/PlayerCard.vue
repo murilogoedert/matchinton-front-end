@@ -68,8 +68,8 @@
     }
     
     #card {
-        width: 25vh;
-        height: 34vh;
+        width: 35vh;
+        height: 45vh;
 
         color: #FFFF;
 
@@ -121,8 +121,8 @@
     }
 
     .icBottom {
-        width: 8vh;
-        height: 8vh;
+        width: 11vh;
+        height: 11vh;
 
         z-index: 2;
 
@@ -130,7 +130,7 @@
     }
 
     #bottomBox {
-        width: 25vh;
+        width: 35vh;
         height: 12vh;
 
         z-index: 0;
