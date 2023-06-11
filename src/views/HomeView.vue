@@ -2,49 +2,32 @@
     import { goToLoginIfNotLoggedIn } from '@/common/commonFunctions';
     import MyHeader from '@/components/MyHeader.vue';
     import PlayerCard from '@/components/PlayerCard.vue';
-    import { usePlayerStore } from '@/stores/player';
+    import { usePlayerStore, type Player, type PlayerHome } from '@/stores/player';
     import { onMounted, ref } from 'vue';
 
     const playerStore = usePlayerStore();
-    const players = [
-            { player: {
-                id: 1,
-                name: "Luis Felipe",
-                uf: "SC",
-                city: "Rio do Sul",
-                birth_date: "06/14/2001"
-            }, details: false},
-            { player: {
-                id: 2,                
-                name: "Jorge Luis",
-                uf: "SC",
-                city: "Rio do Sul",
-                birth_date: "06/14/2001"
-            }, details: false},
-            { player: {
-                id: 3,                
-                name: "Luis Felipe",
-                uf: "SC",
-                city: "Rio do Sul",
-                birth_date: "06/14/2001"
-            }, details: false},
-            { player: {
-                id: 4,                
-                name: "Luis Felipe",
-                uf: "SC",
-                city: "Rio do Sul",
-                birth_date: "06/14/2001"
-            }, details: false},
-        ];
-    
-    goToLoginIfNotLoggedIn();
+    const players = ref<PlayerHome[]>([]);
+
+    //Caso não logado, volta para o /login
+    goToLoginIfNotLoggedIn();        
 
     onMounted(() => {
-        // console.log(playerStore.getAllPlayers());
-        // players.value = playerStore.getPlayers();
+        playerStore.getAllPlayers()
+            .then((response) => {
+                // console.log(response.data);
 
-        playerStore.getAllPlayers();
+                response.data.forEach((element: Player) => {
+                    players.value.push({ player: element, details: false})
+                });
+            })
+            .catch((e) => {
+                console.log(e);
+            })
     })
+
+    function toggleDetails(index: number) {
+        players.value[index].details = !players.value[index].details;
+    }
 </script>
 <template>
     <MyHeader />
@@ -52,9 +35,10 @@
         <h2>Jogadores Disponíveis</h2>
         <div id="players">
             <PlayerCard
-                v-for="player in players"
-                :key="player.player.id"
+                v-for="player, index in players"
+                :key="index"
                 :player="player"
+                @toggleDetails="toggleDetails(index)"
             />
         </div>
     </div>

@@ -14,7 +14,12 @@ export interface Player {
     team_id: number,
     photo?: string,
     created_at?: string,
-    updated_at?: string
+    updated_at?: string,
+}
+
+export interface PlayerHome {
+    player: Player,
+    details: boolean
 }
 
 export const usePlayerStore = defineStore('player', () => {
@@ -24,27 +29,7 @@ export const usePlayerStore = defineStore('player', () => {
     }
 
     function getAllPlayers() {
-        const teamStore = useTeamStore();
-        
-        teamStore.getAllTeams()
-            .then((response) => {
-                console.log(response.data);
-
-                // response.data.forEach((element: Team) => {
-                //     console.log(element);
-                // });
-            })
-            .catch((e) => {
-                console.log(e);
-            })
-
-        // teamStore.getTeam("3")
-        //     .then((response) => {
-        //         console.log(response.data);
-        //     })
-        //     .catch((e) => {
-        //         console.log(e);
-        //     })
+        return doGet("player/search", true);
     }
 
     function addPlayer(player: Player) {
@@ -55,21 +40,21 @@ export const usePlayerStore = defineStore('player', () => {
         const dataNascimento: Date = new Date(dataString);
         const dataAtual: Date = new Date();
       
-        // Obtém o ano de nascimento e o ano atual
+        // Obtem o ano de nascimento e o ano atual
         const anoNascimento: number = dataNascimento.getFullYear();
         const anoAtual: number = dataAtual.getFullYear();
       
         // Calcula a diferença de anos
         let idade: number = anoAtual - anoNascimento;
       
-        // Verifica se o aniversário já ocorreu neste ano
+        // Verifica se o aniversario ja ocorreu neste ano
         const mesAtual: number = dataAtual.getMonth() + 1;
         const diaAtual: number = dataAtual.getDate();
         const mesNascimento: number = dataNascimento.getMonth() + 1;
         const diaNascimento: number = dataNascimento.getDate();
       
         if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < diaNascimento)) {
-          // Ainda não fez aniversário neste ano, diminui a idade em 1
+          // Ainda nao fez aniversario neste ano, diminui a idade em 1
           idade--;
         }
       
