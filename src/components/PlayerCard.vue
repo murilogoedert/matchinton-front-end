@@ -2,17 +2,30 @@
     import { Icon } from '@iconify/vue';
     import { onMounted } from 'vue';
     import { ref } from 'vue';
-    import type { PropType } from 'vue';
+    import { usePlayerStore } from '@/stores/player';
 
-    const details = ref(false);
+    const props = defineProps({
+        player: {
+            type: Object,
+            required: true
+        }
+    })
+    const playerStore = usePlayerStore();
+    
+    const jogador = ref(props.player.player);
+    const details = ref(props.player.details);
+
+    onMounted(() => {
+        console.log(jogador.value);
+    })
 </script>
 <template>
     <div id="card">
         <div id="topCard">
             <div id="infoTop" v-if="!details">
-                <h3>Luis Felipe</h3>
-                <h5>Rio do Sul - SC</h5>
-                <h5>22 anos</h5>
+                <h3>{{ jogador.name }}</h3>
+                <h5>{{ jogador.city }} - {{ jogador.uf }}</h5>
+                <h5>{{ playerStore.calcAge(jogador.birth_date) }} anos</h5>
             </div>
             <Icon icon="akar-icons:info-fill" color="#FFFF" class="icTop" v-if="!details" @click="details = !details" />
         </div>

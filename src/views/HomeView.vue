@@ -16,7 +16,7 @@
             }, details: false},
             { player: {
                 id: 2,                
-                name: "Luis Felipe",
+                name: "Jorge Luis",
                 uf: "SC",
                 city: "Rio do Sul",
                 birth_date: "06/14/2001"
@@ -40,8 +40,10 @@
     goToLoginIfNotLoggedIn();
 
     onMounted(() => {
-        console.log(playerStore.getPlayers());
+        // console.log(playerStore.getAllPlayers());
         // players.value = playerStore.getPlayers();
+
+        playerStore.getAllPlayers();
     })
 </script>
 <template>
@@ -52,6 +54,7 @@
             <PlayerCard
                 v-for="player in players"
                 :key="player.player.id"
+                :player="player"
             />
         </div>
     </div>
