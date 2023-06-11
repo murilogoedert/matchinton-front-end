@@ -38,8 +38,6 @@ onMounted(() => {
 
     compStore.getCatgs()
         .then((response) => {
-            // console.log(response.data)
-
             catgs.value = response.data;
             isLoading.value = false;
         })
