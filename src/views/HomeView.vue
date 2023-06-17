@@ -5,7 +5,6 @@ import PlayerCard from '@/components/PlayerCard.vue';
 import router from '@/router';
 import { usePlayerStore, type Player, type PlayerHome } from '@/stores/player';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
 
 const playerStore = usePlayerStore();
 const players = ref<PlayerHome[]>([]);
@@ -41,7 +40,7 @@ onMounted(() => {
             error = true;
             isLoading.value = false;
             dialogBadgeColor.value = 'red';
-            dialogMessage.value = 'Erro ao consultar Categorias! ' + e;
+            dialogMessage.value = 'Erro ao listar jogadores! ' + e;
             dialogActive.value = true;
         })
 })
@@ -49,6 +48,7 @@ onMounted(() => {
 function toggleDetails(index: number) {
     players.value[index].details = !players.value[index].details;
 }
+
 </script>
 <template>
     <MyHeader />

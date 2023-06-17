@@ -5,6 +5,8 @@ import CompetitionCrudView from '../views/CompetitionCrudView.vue'
 import HomeView from '../views/HomeView.vue'
 import UserView from '@/views/UserView.vue'
 import SignUpView from '@/views/SignUpView.vue'
+import PlayersView from '@/views/PlayersView.vue'
+import CompetitionsView from '@/views/CompetitionsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +28,12 @@ const router = createRouter({
       name: 'signup',
       component: SignUpView
     },
+    // Rota para tela de lista de jogadores
+    {
+      path: '/playerList',
+      name: 'playerList',
+      component: PlayersView
+    },
     // Rota para tela de cadastro de jogador
     // Prop opcional id para visualizar um jogador ja cadastrado
     {
@@ -33,6 +41,12 @@ const router = createRouter({
       name: 'player',
       component: PlayerCrudView
     },
+    // Rota para tela de lista de competicoes
+    {
+      path: '/competitionList',
+      name: 'competitionList',
+      component: CompetitionsView
+    },     
     // Rota para tela de cadastro de competição
     // Prop opcional id para visualizar uma competição ja cadastrado
     {

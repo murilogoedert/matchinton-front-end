@@ -1,3 +1,19 @@
+/* Links */
+a {
+    color: var(--cor-vermelho);
+
+    text-decoration: none;
+}
+
+/* Buttons */
+.btn-cad {
+    left: 50%;
+    transform: translateX(-50%);
+
+    color: #FFFF;
+    background-color: var(--cor-vermelho);
+}
+
 /* Size of inputs */
 .short {
     width: 15vh;
@@ -34,13 +50,4 @@
         width: 42vh;
     }        
 
-}
-
-/* Buttons */
-.btn-cad {
-    left: 50%;
-    transform: translateX(-50%);
-
-    color: #FFFF;
-    background-color: var(--cor-vermelho);
 }

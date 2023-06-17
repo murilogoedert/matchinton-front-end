@@ -1,11 +1,13 @@
 <script setup lang="ts">
     import { Icon } from '@iconify/vue';
     import { useUserStore } from '@/stores/user';
+    import { ref } from 'vue';
 
     const userStore = useUserStore();
+    const menuSuspenso = ref(false);
 </script>
 <template>
-    <div id="mainHeader">
+    <div id="mainHeader" @mouseleave="menuSuspenso = false">
         <div id="divImg">
             <Router-link to="/">
                 <div id="headerImg" onclick="">
@@ -14,11 +16,26 @@
             </Router-link>
         </div>
         <div id="icons">
-            <Router-link to="/user">
+            <Router-link to="/user" @mouseover="menuSuspenso = true">
                 <Icon icon="mdi:user" class="headerIcon"/>
             </Router-link>
-            <span id="nome-user" class="text-md-center tex">Olá {{ userStore.getUser().value?.name }}</span>
+            <span id="nome-user" class="text-md-center tex" @mouseover="menuSuspenso = true" >Olá {{ userStore.getUser().value?.name }}</span>
             <Icon icon="majesticons:logout-line" class="headerIcon" @click=userStore.logout />
+        </div>
+        <div id="menuSuspenso" v-if="menuSuspenso">
+            <Router-link to="/playerList">
+                <div class="itemMenuSuspenso">
+                    <Icon icon="fa-solid:users-cog" class="menuIcon"/>
+                    <span>Meus Jogadores</span>
+                </div>
+            </Router-link>
+            <div class="menuLine"></div>
+            <Router-link to="/competitionList">
+                <div class="itemMenuSuspenso">        
+                    <Icon icon="material-symbols:sports-score" class="menuIcon"/>
+                    <span>Competições</span>
+                </div>
+            </Router-link>
         </div> 
     </div>
 </template>
@@ -63,6 +80,8 @@
     #nome-user{
         color: white;
         font-weight: 600;
+
+        cursor: default;
     }
 
     #headerImg img {
@@ -84,13 +103,63 @@
         margin-top: .3rem;
     }
 
-    .headerIcon {
+    .headerIcon, .menuIcon {
         width: 3vh;
         height: 3vh;
 
+        cursor: pointer;
+    }
+
+    .headerIcon {
         color: #ffff;
+    }
+
+    .menuIcon {
+        color: var(--cor-vermelho);
+    }
+
+    #menuSuspenso {
+        width: max-content;
+        height: min-content;
+
+        position: absolute;
+
+        top: 8vh;
+        left: 70%;
+
+        padding: 1vh;
+
+        background-color: #ffff;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+
+        display: grid;
+        grid-template-rows: repeat(3, min-content);
+        row-gap: 0.5vh;
+
+        justify-items: center;
+    }
+
+    .itemMenuSuspenso {
+        padding: 0.5vh;
+
+        color: var(--cor-vermelho);
 
         cursor: pointer;
+
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        column-gap: 1vh;
+    }
+
+    .itemMenuSuspenso span {
+        align-self: center;
+    }
+
+    .menuLine {
+        width: 90%;
+
+        border-bottom: 1px solid var(--cor-vermelho);
     }
 
     /* Mobile */
