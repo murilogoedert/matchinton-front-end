@@ -1,10 +1,11 @@
 <script setup lang="ts">
-    import { Icon } from '@iconify/vue';
-    import { useUserStore } from '@/stores/user';
-    import { ref } from 'vue';
+import { Icon } from '@iconify/vue';
+import { useUserStore } from '@/stores/user';
+import { ref } from 'vue';
 
-    const userStore = useUserStore();
-    const menuSuspenso = ref(false);
+const userStore = useUserStore();
+const menuSuspenso = ref(false);
+
 </script>
 <template>
     <div id="mainHeader" @mouseleave="menuSuspenso = false">
@@ -23,14 +24,14 @@
             <Icon icon="majesticons:logout-line" class="headerIcon" @click=userStore.logout />
         </div>
         <div id="menuSuspenso" v-if="menuSuspenso">
-            <Router-link to="/playerList">
+            <Router-link to="/user">
                 <div class="itemMenuSuspenso">
-                    <Icon icon="fa-solid:users-cog" class="menuIcon"/>
-                    <span>Meus Jogadores</span>
+                    <Icon icon="mdi:user" class="menuIcon"/>
+                    <span>Meu Perfil</span>
                 </div>
             </Router-link>
-            <div class="menuLine"></div>
-            <Router-link to="/competitionList">
+            <div class="menuLine" v-if="userStore.isAdmin()"></div>
+            <Router-link to="/competitionList" v-if="userStore.isAdmin()">
                 <div class="itemMenuSuspenso">        
                     <Icon icon="material-symbols:sports-score" class="menuIcon"/>
                     <span>Competições</span>
@@ -159,7 +160,7 @@
     .menuLine {
         width: 90%;
 
-        border-bottom: 1px solid var(--cor-vermelho);
+        border-bottom: 1px solid #CECECE;
     }
 
     /* Mobile */

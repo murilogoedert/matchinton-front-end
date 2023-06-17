@@ -9,15 +9,23 @@
         player: {
             type: Object,
             required: true
+        },
+        // Se o card estiver no formato de edição
+        edit: {
+            type: Boolean,
         }
     })
-    const emit = defineEmits(["toggleDetails"]);
+    const emit = defineEmits(["toggleDetails", "editPlayer"]);
     const playerStore = usePlayerStore();    
     const jogador = ref(props.player.player);
     const image = "background-image: url("+ IMG_URL + '/' + jogador.value.photo + ");";
 
     function toggleDetails() {
         emit("toggleDetails");
+    }
+
+    function editPlayer() {
+        emit("editPlayer");
     }
 </script>
 <template>
@@ -30,11 +38,11 @@
             </div>
             <Icon icon="akar-icons:info-fill" color="#FFFF" class="icTop" v-if="!props.player.details" @click="toggleDetails" />
         </div>
-        <div id="bottomCard" v-if="!props.player.details">
+        <div id="bottomCard" v-if="!props.player.details && !props.edit">
             <Icon icon="material-symbols:check-circle-rounded" color="#50c055" class="icBottom" />
             <Icon icon="material-symbols:cancel-rounded" color="#ff4c4e" class="icBottom" />
         </div>
-        <div id="bottomBox" v-if="!props.player.details"></div>
+        <div id="bottomBox" v-if="!props.player.details && !props.edit"></div>
         <div id="divDetails" v-if="props.player.details">
             <div id="topDetails">
                 <div>
@@ -45,6 +53,7 @@
                 <Icon icon="mingcute:down-fill" color="#ff4c4e" class="icTop" @click="toggleDetails" />
             </div>
             <div class="line"></div>
+            <Icon icon="material-symbols:edit" class="icEdit" @click="editPlayer()" v-if="props.edit" />
         </div>
     </div>
 </template>
@@ -73,7 +82,6 @@
 
         color: #FFFF;
 
-        /* background-image: url("https://matchintonimages.nyc3.cdn.digitaloceanspaces.com/0b1c6a4a536ee0528f377fee2a4ea463"); */
         background-color: var(--cor-vermelho);
         background-size: cover;
         background-position: center;
@@ -185,5 +193,17 @@
         margin-top: 1vh;
 
         border: 1px solid var(--cor-vermelho);        
+    }
+
+    .icEdit {
+        width: 3vh;
+        height: 3vh;
+
+        margin-top: 11vh;
+        margin-left: 90%;
+
+        color: var(--cor-vermelho);
+
+        cursor: pointer;
     }
 </style>

@@ -48,8 +48,8 @@ export const useUserStore = defineStore('user', () => {
         return globalUser;
     }
 
-    async function signup(name: string, username: string, phone: string, password: string){
-        return axios.post<User>(API_URL + '/user', {'name': name, 'username': username, 'password': password, 'phone': phone, 'type': 'USER'},{
+    async function signup(name: string, username: string, phone: string, email: string, password: string){
+        return axios.post<User>(API_URL + '/user', {'name': name, 'username': username, 'password': password, 'phone': phone, 'email': email, 'type': 'USER'},{
             validateStatus: () => true
         })
     }
@@ -72,5 +72,13 @@ export const useUserStore = defineStore('user', () => {
         return globalUser;
     }
 
-    return { getUser, login, logout, signup }
+    function isAdmin() {
+        if(globalUser.value?.type === "ADMIN") {
+            return true;
+        }
+    
+        return false;    
+    }
+
+    return { getUser, login, logout, signup, isAdmin }
 })

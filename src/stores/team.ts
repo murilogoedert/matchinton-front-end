@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { doGet } from "./api";
+import { doGet, doPost } from "./api";
 
 export interface Team {
     id?: number,
@@ -7,6 +7,10 @@ export interface Team {
 }
 
 export const useTeamStore = defineStore('team', () => {
+
+    function createTeam(name: String) {
+        return doPost("team", {"name": name });
+    }
 
     function getAllTeams() {
         return doGet("team", true);    
@@ -16,6 +20,14 @@ export const useTeamStore = defineStore('team', () => {
         return doGet("team/" + id, true);
     }
 
-    return { getAllTeams, getTeam };
+    function getMyTeam() {
+        return doGet("team", true);
+    }
+
+    function verifyTeam(name: string) {
+        return doGet("team/all?name=" + name);
+    }
+
+    return { createTeam, getAllTeams, getTeam, getMyTeam, verifyTeam };
 
 })

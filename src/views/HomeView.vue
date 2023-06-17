@@ -108,7 +108,7 @@ function toggleDetails(index: number) {
     row-gap: 2vh;
 }
 
-    /* Mobile */
+/* Mobile */
 @media (max-width: 993px) {
 
     #players {

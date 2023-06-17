@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useTeamStore } from '@/stores/team';
 import { useUserStore } from '@/stores/user';
 import { ref } from 'vue';
 
@@ -8,17 +9,18 @@ const emit = defineEmits<{
 }>()
 
 const {signup} = useUserStore();
+const {createTeam, verifyTeam} = useTeamStore();
 
 const name = ref('');
-const username = ref('');
 const phone = ref('');
+const email = ref('');
+const team = ref('');
+const username = ref('');
 const password = ref('');
 const repeatPass = ref('');
 
-
-
 function signUpAttempt() {
-    if(name.value == '' || username.value == '' || phone.value == '' || password.value == ''){
+    if(name.value == '' || team.value == '' || username.value == '' || phone.value == '' || email.value == '' || password.value == ''){
         emit('signUpFail', 'Não foram preenchidas todas as informações!');
         return;
     }
@@ -28,14 +30,33 @@ function signUpAttempt() {
         return;
     }
 
-    signup(name.value, username.value, phone.value, password.value).then((res) => {
-        if(res.status == 201){
-            emit('signUpSuccess');
-        }else{
-            emit('signUpFail', 'Erro ao realizar login! ' + res.statusText);
-        }
-    });
+    verifyTeam(team.value)
+        .then((response) => {
+            console.log(response.data);
 
+            // Se esse time ainda nao existir
+            if (response.data.length == 0) {
+                createTeam(team.value)
+                    .then(() => {
+                        signup(name.value, username.value, phone.value, email.value, password.value).then((res) => {
+                            if(res.status == 201){
+                                emit('signUpSuccess');
+                            }else{
+                                console.log(res);
+                                emit('signUpFail', 'Erro ao realizar login! ' + res.statusText);
+                            }
+                        });
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    })
+            } else {
+                emit('signUpFail', 'Time informado já existe! ' + response.statusText);
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        })
 }
 
 </script>
@@ -44,10 +65,14 @@ function signUpAttempt() {
         <VForm fast-fail @submit.prevent>
             <v-text-field v-model="name" :rules="[(value) => value.trim().length > 0 || 'Este campo é obrigatório']"
                 name="name" label="Nome" id="name"></v-text-field>
+            <v-text-field v-model="team" :rules="[(value) => value.trim().length > 0 || 'Este campo é obrigatório']"
+                name="time" label="Time" id="team"></v-text-field>
+            <v-text-field v-model="email" :rules="[(value) => value.trim().length > 0 || 'Este campo é obrigatório']"
+                name="email" label="Email" id="email"></v-text-field>                
+            <v-text-field v-model="phone" :rules="[(value) => value.trim().length > 0 || 'Este campo é obrigatório']"
+                name="phone" label="Telefone" id="phone"></v-text-field>
             <v-text-field v-model="username" :rules="[(value) => value.trim().length > 0 || 'Este campo é obrigatório']"
                 name="username" label="Nome de usuário" id="username"></v-text-field>
-            <v-text-field v-model="phone" :rules="[(value) => value.trim().length > 0 || 'Este campo é obrigatório']"
-                name="phone" label="telefone" id="phone"></v-text-field>
             <v-text-field v-model="password" name="password" label="Senha" hint="Pelo menos 8 carácteres" min="8" max="16"
                 type="password"></v-text-field>
             <v-text-field v-model="repeatPass" name="password repeat" label="Repita a senha" min="8" max="16"

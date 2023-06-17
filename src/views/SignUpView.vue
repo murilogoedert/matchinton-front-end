@@ -106,10 +106,10 @@ goToRouteIfLoggedIn('/');
     background-color: white;
     border: 2px solid var(--cor-vermelho);
     border-radius: .6rem;
-    height: 60vh;
+    height: 70vh;
     width: 30vw;
     display: grid;
-    grid-template-rows: 2fr 5fr 1fr;
+    grid-template-rows: 2fr 6fr 1fr;
 }
 
 #login-form #signup-text {
