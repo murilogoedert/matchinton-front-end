@@ -32,6 +32,10 @@ export const usePlayerStore = defineStore('player', () => {
         return doGet("player/search", true);
     }
 
+    function getPlayerByTeam(id: number | undefined) {
+        return doGet("player/team/" + id, true);
+    }
+
     function addPlayer(player: Player) {
         return doPost('player', player, true);
     }
@@ -70,6 +74,6 @@ export const usePlayerStore = defineStore('player', () => {
         return idade;
     }
 
-    return { addPlayer, getPlayer, getAllPlayers, updatePlayer, calcAge };
+    return { addPlayer, getPlayer, getAllPlayers, getPlayerByTeam, updatePlayer, calcAge };
     
 })

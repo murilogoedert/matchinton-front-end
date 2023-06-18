@@ -4,7 +4,7 @@ import MyHeader from '@/components/MyHeader.vue';
 import PlayerCard from '@/components/PlayerCard.vue';
 import router from '@/router';
 import { usePlayerStore, type Player, type PlayerHome } from '@/stores/player';
-import { useTeamStore } from '@/stores/team';
+import { useTeamStore, type Team } from '@/stores/team';
 import { useUserStore } from '@/stores/user';
 import { ref } from 'vue';
 import { onMounted } from 'vue';
@@ -39,22 +39,20 @@ onMounted(() => {
         .then((response) => {
             console.log(response.data);
 
-            isLoading.value = false;
-        })
-        .catch((e) => {
-            error = true;
-            isLoading.value = false;
-            dialogBadgeColor.value = 'red';
-            dialogMessage.value = 'Erro ao listar jogadores! ' + e;
-            dialogActive.value = true;
-        })
-
-    // Por enquanto pegando todos os players
-    // Alterar para mostrar apenas os do meu time
-    playerStore.getAllPlayers()
-        .then((response) => {
-            response.data.forEach((element: Player) => {
-                players.value.push({ player: element, details: true})
+            response.data.forEach((element: Team) => {
+                playerStore.getPlayerByTeam(element.id)
+                    .then((res) => {
+                        res.data.forEach((element: Player) => {
+                            players.value.push({ player: element, details: true})
+                        });    
+                    })
+                    .catch((e) => {
+                        error = true;
+                        isLoading.value = false;
+                        dialogBadgeColor.value = 'red';
+                        dialogMessage.value = 'Erro ao listar jogadores! ' + e;
+                        dialogActive.value = true;
+                    })
             });
 
             isLoading.value = false;
@@ -66,8 +64,6 @@ onMounted(() => {
             dialogMessage.value = 'Erro ao listar jogadores! ' + e;
             dialogActive.value = true;
         })
-        
-    console.log(userStore.getUser().value);
 });
 
 function toggleDetails(index: number) {

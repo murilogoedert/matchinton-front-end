@@ -8,8 +8,11 @@ export interface Team {
 
 export const useTeamStore = defineStore('team', () => {
 
-    function createTeam(name: String) {
-        return doPost("team", {"name": name });
+    function createTeam(name: String, userId: number) {
+        return doPost("team", {
+            "name": name,
+            "userId": userId
+        });
     }
 
     function getAllTeams() {

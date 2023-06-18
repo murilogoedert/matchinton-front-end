@@ -21,7 +21,7 @@ const menuSuspenso = ref(false);
                 <Icon icon="mdi:user" class="headerIcon"/>
             </Router-link>
             <span id="nome-user" class="text-md-center tex" @mouseover="menuSuspenso = true" >Olá {{ userStore.getUser().value?.name }}</span>
-            <Icon icon="majesticons:logout-line" class="headerIcon" @click=userStore.logout />
+            <Icon icon="majesticons:logout-line" class="headerIcon" @click=userStore.logout() />
         </div>
         <div id="menuSuspenso" v-if="menuSuspenso">
             <Router-link to="/user">

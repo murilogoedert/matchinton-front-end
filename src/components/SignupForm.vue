@@ -32,24 +32,23 @@ function signUpAttempt() {
 
     verifyTeam(team.value)
         .then((response) => {
-            console.log(response.data);
-
             // Se esse time ainda nao existir
             if (response.data.length == 0) {
-                createTeam(team.value)
-                    .then(() => {
-                        signup(name.value, username.value, phone.value, email.value, password.value).then((res) => {
-                            if(res.status == 201){
+                signup(name.value, username.value, phone.value, email.value, password.value).then((res) => {
+                    if(res.status == 201) {
+                        createTeam(team.value, res.data.id)
+                            .then(() => {
                                 emit('signUpSuccess');
-                            }else{
-                                console.log(res);
-                                emit('signUpFail', 'Erro ao realizar login! ' + res.statusText);
-                            }
-                        });
-                    })
-                    .catch((e) => {
-                        console.log(e);
-                    })
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                                emit('signUpFail', 'Erro ao realizar cadastro! ' + res.statusText);
+                            })
+                    }else{
+                        console.log(res);
+                        emit('signUpFail', 'Erro ao realizar cadastro! ' + res.statusText);
+                    }
+                });
             } else {
                 emit('signUpFail', 'Time informado já existe! ' + response.statusText);
             }
