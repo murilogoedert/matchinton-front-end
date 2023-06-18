@@ -16,6 +16,14 @@ export interface Competition {
     categories: string[]
 }
 
+export interface getCompetition {
+    id?: number,
+    name: string,
+    start_date: string,
+    end_date: string,
+    competition_category: string[]
+}
+
 export const useCompStore = defineStore('competition', () => {
 
     function getCatgs() {
@@ -30,10 +38,18 @@ export const useCompStore = defineStore('competition', () => {
         return doGet("competition/" + id, true);
     }
 
+    function updateCompetition(comp: getCompetition) {
+        return doPatch("competition/" + comp.id, {
+            name: comp.name,
+            start_date: new Date(comp.start_date).toISOString(),
+            end_date: new Date(comp.end_date).toISOString(),
+        }, true);
+    }
+
     function getComps() {
         return doGet("competition/", true);
     }
 
-    return { getCatgs, addCompetition, getCompetition, getComps };
+    return { getCatgs, addCompetition, getCompetition, updateCompetition, getComps };
 
 })

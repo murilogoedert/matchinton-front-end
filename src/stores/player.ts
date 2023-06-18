@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { API_URL, doGet, doGetImage, doPost } from "./api";
+import { API_URL, doGet, doGetImage, doPatch, doPost } from "./api";
 import { useUserStore } from "./user";
 import { useTeamStore, type Team } from "./team";
 
@@ -36,6 +36,15 @@ export const usePlayerStore = defineStore('player', () => {
         return doPost('player', player, true);
     }
 
+    function updatePlayer(player: Player) {
+        return doPatch('player/' + player.id, {
+            name: player.name,
+            observation: player.observation,
+            city: player.city,
+            state: player.state
+        }, true);    
+    }
+
     function calcAge(dataString: string): number {
         const dataNascimento: Date = new Date(dataString);
         const dataAtual: Date = new Date();
@@ -61,6 +70,6 @@ export const usePlayerStore = defineStore('player', () => {
         return idade;
     }
 
-    return { addPlayer, getPlayer, getAllPlayers, calcAge };
+    return { addPlayer, getPlayer, getAllPlayers, updatePlayer, calcAge };
     
 })

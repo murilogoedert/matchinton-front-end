@@ -9,6 +9,7 @@ import { ref } from 'vue';
 import type { AxiosResponse } from 'axios';
 import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
+import { format } from 'date-fns';
 
 //Caso não logado, volta para o /login
 goToLoginIfNotLoggedIn();
@@ -32,13 +33,14 @@ const selectedFile: Ref<File | null> = ref(null);
 const imageData: Ref<string | null> = ref(null);
 
 const route = useRoute();
-const player = ref({
+const player = ref<Player>({
     name: "",
     birth_date: "2023-05-26T00:09:55.795Z",
     state: "",
     city: "",
     observation: "",
-    photo: ""
+    photo: "" ,
+    team_id: 0
 });
 const imgSearch = ref("");
 
@@ -50,6 +52,13 @@ onMounted(() => {
         playerStore.getPlayer(route.params.id)
             .then((response) => {
                 player.value = response.data;
+
+                // Ajustes por conta da conversão de data
+                let playerBirth = new Date(player.value.birth_date);
+                playerBirth.setDate(playerBirth.getDate() + 1);
+
+                player.value.birth_date = format(playerBirth, 'yyyy-MM-dd')
+
                 isLoading.value = false;
             })
             .catch((e) => {
@@ -86,10 +95,9 @@ function routePlayer() {
 function addPlayer() {
     isLoading.value = true;
 
-    // Provisoriamente enviando somente dados de cadastro
     const player = {
         name: name.value,
-        birth_date: dtNasc.value,
+        birth_date: new Date(dtNasc.value).toISOString(),
         city: cidade.value,
         state: uf.value,
         observation: obs.value,
@@ -120,6 +128,26 @@ function addPlayer() {
         }).catch(errorDialog);
     }).catch(errorDialog);
 }
+
+function editPlayer() {
+    isLoading.value = true;
+
+    playerStore.updatePlayer(player.value)
+        .then((response) => {
+            isLoading.value = false;
+            dialogBadgeColor.value = 'green';
+            dialogMessage.value = 'Jogador alterado com sucesso!';
+            dialogActive.value = true;
+        })
+        .catch((e) => {
+            error = true;
+            isLoading.value = false;
+            dialogBadgeColor.value = 'red';
+            dialogMessage.value = 'Erro ao alterar jogador! ' + e;
+            dialogActive.value = true;
+        })
+}
+
 </script>
 <template>
     <MyHeader />
@@ -148,26 +176,6 @@ function addPlayer() {
                 <v-text-field name="obs" label="Observação" id="obs" variant="solo" v-model="obs"
                     class="extraLong"></v-text-field>
             </div>
-            <!-- Provisoriamente enviando somente dados de cadastro -->
-            <!-- <v-select
-                    label="Competição"
-                    :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-                    variant="solo"
-                    v-model="camp"
-                ></v-select> -->
-            <!-- <div id="categories">
-                <h3>Categorias</h3>
-                <v-checkbox
-                    v-for="item in playerStore.getCatgs()"
-                    v-model="catgs"
-                    :id="item.value"
-                    :label="item.text"
-                    :value="item.value"
-                    color="red"
-                    density="compact"
-                    hide-details
-                ></v-checkbox>
-            </div> -->
         </div>
         <VBtn class="mt-2 btn-cad" :loading="isLoading" @click="addPlayer">Inserir Jogador</VBtn>
     </div>
@@ -192,23 +200,26 @@ function addPlayer() {
             ></v-img>
             <div id="cadPlayer">
                 <div class="rowCadPlayer">
-                    <v-text-field name="nome" :label="player.name" id="nome" variant="solo"
+                    <v-text-field name="nome" label="Nome" v-model="player.name" id="nome" variant="solo"
                         class="extraLong"></v-text-field>
                 </div>
                 <div class="rowCadPlayer">
-                    <v-text-field type="text" name="dtNasc" :label="new Date(player.birth_date).toLocaleDateString()" id="dtNasc" variant="solo"
-                        class="medium"></v-text-field>
+                    <v-text-field type="date" name="dtNasc" label="Data de Nascimento" v-model="player.birth_date" id="dtNasc" variant="solo"
+                        class="medium" disabled></v-text-field>
+                    <!-- <v-file-input name="img" ref="inputFileReference" label="Alterar Imagem" id="img-player"
+                        prepend-icon="mdi-camera" variant="solo" @change="handlerImg" class="medium img"></v-file-input>                         -->
                 </div>
                 <div class="rowCadPlayer">
-                    <v-select :label="player.state" variant="solo" class="short"></v-select>
-                    <v-text-field name="cidade" :label="player.city" id="cidade" variant="solo" class="long"></v-text-field>
+                    <v-select label="UF" :items="['SC', 'PR', 'RS', 'SP', 'RJ']" v-model="player.state" variant="solo" class="short"></v-select>
+                    <v-text-field name="cidade" label="Cidade" v-model="player.city" id="cidade" variant="solo" class="long"></v-text-field>
                 </div>
                 <div class="rowCadPlayer">
-                    <v-text-field name="obs" :label="player.observation" id="obs" variant="solo"
+                    <v-text-field name="obs" label="Observação" v-model="player.observation" id="obs" variant="solo"
                         class="extraLong"></v-text-field>
                 </div>
             </div>
         </div>
+        <VBtn class="mt-2 btn-cad" :loading="isLoading" @click="editPlayer">Editar Informações</VBtn>
     </div>
     <!-- Mensagem de erro -->
     <v-dialog v-model="dialogActive" transition="dialog-bottom-transition" width="auto">

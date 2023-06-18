@@ -3,10 +3,11 @@
 import { goToLoginIfNotLoggedIn } from '@/common/commonFunctions';
 import MyHeader from '@/components/MyHeader.vue';
 import router from '@/router';
-import { useCompStore, type Category, type Competition } from '@/stores/competition';
+import { useCompStore, type Category, type Competition, type getCompetition } from '@/stores/competition';
 import { ref } from 'vue';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { format } from 'date-fns';
 
 //Caso não logado, volta para o /login
 goToLoginIfNotLoggedIn();
@@ -25,11 +26,11 @@ const dialogMessage = ref('');
 var error = false;
 
 const route = useRoute();
-const competition = ref({
+const competition = ref<getCompetition>({
     name: "",
     start_date: "2023-05-26T00:09:55.795Z",
     end_date: "2023-05-26T00:09:55.795Z",
-    competition_category: []
+    competition_category: [],
 });
 
 onMounted(() => { 
@@ -56,7 +57,19 @@ onMounted(() => {
         compStore.getCompetition(route.params.id)
             .then((response) => {
                 competition.value = response.data;
+
                 fillCatgs();
+
+                // Ajustes por conta da conversão de data
+                let startDate = new Date(competition.value.start_date);
+                startDate.setDate(startDate.getDate() + 1);
+
+                let endDate = new Date(competition.value.end_date);
+                endDate.setDate(endDate.getDate() + 1);
+
+                competition.value.start_date = format(startDate, 'yyyy-MM-dd'); 
+                competition.value.end_date = format(endDate, 'yyyy-MM-dd'); 
+
                 isLoading.value = false;
             })
             .catch((e) => {
@@ -78,8 +91,6 @@ function addCompetition() {
         end_date: dtStart.value,
         categories: compCatgs.value
     }
-
-    console.log(comp);
 
     compStore.addCompetition(comp)
         .then(() => {
@@ -109,6 +120,25 @@ function fillCatgs() {
     competition.value.competition_category.forEach((element: any) => {
         compCatgs.value.push(element.id);
     });
+}
+
+function editCompetition() {
+    isLoading.value = true;
+
+    compStore.updateCompetition(competition.value)
+        .then((response) => {
+            isLoading.value = false;
+            dialogBadgeColor.value = 'green';
+            dialogMessage.value = 'Competição alterada com sucesso!';
+            dialogActive.value = true;
+        })
+        .catch((e) => {
+            error = true;
+            isLoading.value = false;
+            dialogBadgeColor.value = 'red';
+            dialogMessage.value = 'Erro ao alterar competição! ' + e;
+            dialogActive.value = true;
+        }) 
 }
 
 </script>
@@ -161,13 +191,13 @@ function fillCatgs() {
         <div id="cadComp">
             <div class="colCadComp">
                 <v-text-field 
-                    name="nome" :label="competition.name" id="nome" variant="solo" class="medium"
+                    name="nome" label="Nome" v-model="competition.name" id="nome" variant="solo" class="medium"
                 ></v-text-field>
                 <v-text-field 
-                    type="text" name="dtStart" :label="new Date(competition.start_date).toLocaleDateString()" id="dtStart" variant="solo" class="medium"
+                    type="date" name="dtStart" label="Data de Início" v-model="competition.start_date" id="dtStart" variant="solo" class="medium"
                 ></v-text-field>
                 <v-text-field 
-                    type="text" name="dtEnd" :label="new Date(competition.end_date).toLocaleDateString()" id="dtEnd" variant="solo" class="medium"
+                    type="date" name="dtEnd" label="Data de Término" v-model="competition.end_date" id="dtEnd" variant="solo" class="medium"
                 ></v-text-field>
             </div>
             <div class="colCadComp">
@@ -186,6 +216,7 @@ function fillCatgs() {
                 </div>
             </div>
         </div>
+        <VBtn class="mt-2 btn-cad" :loading="isLoading" @click="editCompetition">Editar Informações</VBtn>
     </div>    
     <!-- Mensagem de erro -->
     <v-dialog v-model="dialogActive" transition="dialog-bottom-transition" width="auto">

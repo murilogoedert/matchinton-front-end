@@ -76,7 +76,7 @@ function editCompetition(id: number | undefined) {
             <div class="comp" v-for="comp, index in competitions">
                 <div class="compName">
                     <h2>{{ comp.name }}</h2>
-                    <Icon icon="mdi:eye" class="iconList" @click="editCompetition(comp.id)"/>
+                    <Icon icon="material-symbols:edit" class="iconList" @click="editCompetition(comp.id)"/>
                 </div>
                 <div>
                     <h4>Início: {{ new Date(comp.start_date).toLocaleDateString() }}</h4>
