@@ -95,7 +95,7 @@ function editPlayer(id: number | undefined) {
             <h4>Time: {{  }}</h4>
             <h4>Telefone: {{ user?.phone }}</h4>
             <h4>Usuário: {{ user?.username }}</h4>
-            <h4>Membro desde: {{ new Date(user?.created_at).toLocaleDateString() }}</h4>
+            <h4>Membro desde: {{ new Date(user?.created_at || '').toLocaleDateString() }}</h4>
         </div>
         <h2>Meus Jogadores</h2>
         <div id="players">
