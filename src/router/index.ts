@@ -7,6 +7,8 @@ import UserView from '@/views/UserView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import PlayersView from '@/views/PlayersView.vue'
 import CompetitionsView from '@/views/CompetitionsView.vue'
+import CreateDuoRequestsView from '@/views/CreateDuoRequestsView.vue'
+import DuoRequestsView from '@/views/DuoRequestsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,14 +48,14 @@ const router = createRouter({
       path: '/competitionList',
       name: 'competitionList',
       component: CompetitionsView
-    },     
+    },
     // Rota para tela de cadastro de competição
     // Prop opcional id para visualizar uma competição ja cadastrado
     {
       path: '/competition/:id?',
       name: 'competition',
       component: CompetitionCrudView
-    },    
+    },
     // Rota para tela de cadastro de usuário
     {
       path: '/user',
@@ -63,10 +65,17 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/LoginView.vue')
+    },
+    {
+      path: '/duo/:player_id',
+      name: 'duo_requests',
+      component: CreateDuoRequestsView
+    },
+    {
+      path: '/requests',
+      name: 'requests',
+      component: DuoRequestsView
     }
   ]
 })
