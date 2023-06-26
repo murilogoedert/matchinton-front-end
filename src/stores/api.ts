@@ -1,8 +1,8 @@
 import { useUserStore } from './user'
 import axios, { type AxiosRequestConfig } from 'axios'
 
-// export const API_URL = 'https://matchinton-app-276wa.ondigitalocean.app';
-export const API_URL = 'http://localhost:3000'
+export const API_URL = 'https://matchinton-app-276wa.ondigitalocean.app'
+// export const API_URL = 'http://localhost:3000'
 export const IMG_URL = 'https://matchintonimages.nyc3.cdn.digitaloceanspaces.com'
 
 function getAuthHeader(): AxiosRequestConfig {
