@@ -23,6 +23,7 @@ const genero = ref("");
 const uf = ref("SC");
 const cidade = ref("");
 const obs = ref("");
+const showGenero = ref("");
 
 const isLoading = ref(false);
 const dialogActive = ref(false);
@@ -65,6 +66,9 @@ onMounted(() => {
                 playerBirth.setDate(playerBirth.getDate() + 1);
 
                 player.value.birth_date = format(playerBirth, 'yyyy-MM-dd')
+
+                // Ajusta gênero para exibição
+                showGenero.value = genders.filter(gnd => gnd.value == player.value.gender)[0]?.title;
 
                 isLoading.value = false;
             })
@@ -217,8 +221,8 @@ function editPlayer() {
                 <div class="rowCadPlayer">
                     <v-text-field type="date" name="dtNasc" label="Data de Nascimento" v-model="player.birth_date" id="dtNasc" variant="solo"
                         class="medium" disabled></v-text-field>
-                    <!-- <v-file-input name="img" ref="inputFileReference" label="Alterar Imagem" id="img-player"
-                        prepend-icon="mdi-camera" variant="solo" @change="handlerImg" class="medium img"></v-file-input>                         -->
+                    <v-text-field label="Gênero" variant="solo" class="medium"
+                        v-model="showGenero" disabled></v-text-field>
                 </div>
                 <div class="rowCadPlayer">
                     <v-select label="UF" :items="['SC', 'PR', 'RS', 'SP', 'RJ']" v-model="player.state" variant="solo" class="short"></v-select>
