@@ -57,8 +57,8 @@ onMounted(async () => {
 function onSubmit() {
     if (selectedCompetition.value.trim() !== '' && selectedPlayer.value.trim() !== '') {
         duoRequestStore.createDuoRequest({
-            player1: +route.params.player_id,
-            player2: +(players.filter((play) => { return play.name == selectedPlayer.value })[0].id || 0),
+            player2: +route.params.player_id,
+            player1: +(players.filter((play) => { return play.name == selectedPlayer.value })[0].id || 0),
             competition: +(competitions.filter((comp) => { return comp.name == selectedCompetition.value })[0].id || 0)
         }).then(() => {
             dialogBadgeColor.value = 'green';

@@ -76,15 +76,18 @@ function updateDuoRequest(duoUpdate: DuoRequestUpdate) {
 }
 
 function checkCancelEnabled(duoRequest: DuoRequestResponse) {
-    return duoRequest.status == 'PENDING' && duoRequest.player_target?.team_id == userStore.getUser().value?.team_id;
+    // return duoRequest.status == 'PENDING' && duoRequest.player_target?.team_id == userStore.getUser().value?.team_id;
+    return duoRequest.status == 'PENDING' && duoRequest.player_origin?.team_id == userStore.getUser().value?.team_id;
 }
 
 function checkDenyEnabled(duoRequest: DuoRequestResponse) {
-    return duoRequest.status == 'PENDING' && duoRequest.player_origin?.team_id == userStore.getUser().value?.team_id;
+    // return duoRequest.status == 'PENDING' && duoRequest.player_origin?.team_id == userStore.getUser().value?.team_id;
+    return duoRequest.status == 'PENDING' && duoRequest.player_target?.team_id == userStore.getUser().value?.team_id;
 }
 
 function checkAcceptEnabled(duoRequest: DuoRequestResponse) {
-    return duoRequest.status == 'PENDING' && duoRequest.player_origin?.team_id == userStore.getUser().value?.team_id;
+    // return duoRequest.status == 'PENDING' && duoRequest.player_origin?.team_id == userStore.getUser().value?.team_id;
+    return duoRequest.status == 'PENDING' && duoRequest.player_target?.team_id == userStore.getUser().value?.team_id;
 }
 
 function getPendingRequests() {
