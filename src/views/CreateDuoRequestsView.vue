@@ -10,7 +10,6 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '@/router';
 
-
 const route = useRoute();
 var competitions: Competition[];
 var players: Player[];
@@ -83,14 +82,13 @@ function onSubmit() {
 <template>
     <MyHeader />
     <div class="content">
-        <h3>Selecione um jogador para fazer dupla com {{ playerName }}</h3>
+        <h3>Selecione um jogador para fazer dupla com: <strong> {{ playerName }}</strong></h3>
         <v-form label="Solicitação de Dupla">
             <v-select variant="solo" required v-model="selectedCompetition" :items="competitionsList"
                 label="Selecione a competição"></v-select>
             <v-select variant="solo" :items="playersList" required v-model="selectedPlayer" label="Selecione um jogador"
                 no-data-text="Nenhum Jogador Encontrado"></v-select>
-            <v-btn @click="onSubmit" color="success">Solicitar formação de
-                dupla</v-btn>
+            <v-btn @click="onSubmit" color="success">Solicitar dupla</v-btn>
         </v-form>
     </div>
     <v-dialog v-model="dialogActive" transition="dialog-bottom-transition" width="auto">
@@ -111,8 +109,17 @@ function onSubmit() {
 .content {
     position: relative;
     top: 16vh;
-    width: 60vw;
+    width: 50vw;
     margin-left: auto;
     margin-right: auto;
+
+    text-align: center;
 }
+
+.content h3 {
+    color: var(--cor-vermelho);
+
+    margin-bottom: 2vh;
+}
+
 </style>

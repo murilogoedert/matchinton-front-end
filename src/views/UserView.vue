@@ -14,6 +14,7 @@ const userStore = useUserStore();
 const playerStore = usePlayerStore();
 const teamStore = useTeamStore();
 const user = userStore.getUser().value;
+const team = ref<Team[]>([]);
 const players = ref<PlayerHome[]>([]);
 
 const isLoading = ref(false);
@@ -37,7 +38,8 @@ onMounted(() => {
     
     teamStore.getMyTeam()
         .then((response) => {
-            console.log(response.data);
+            team.value = response.data;
+            console.log(team.value);
 
             response.data.forEach((element: Team) => {
                 playerStore.getPlayerByTeam(element.id)
@@ -92,7 +94,7 @@ function editPlayer(id: number | undefined) {
         </v-card>
         <div id="user">
             <h2>{{ user?.name }}</h2>
-            <h4>Time: {{  }}</h4>
+            <h4>Time: {{ team[0]?.name }}</h4>
             <h4>Telefone: {{ user?.phone }}</h4>
             <h4>Usuário: {{ user?.username }}</h4>
             <h4>Membro desde: {{ new Date(user?.created_at || '').toLocaleDateString() }}</h4>

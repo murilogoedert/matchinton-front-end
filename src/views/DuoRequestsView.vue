@@ -9,25 +9,32 @@ import type { AxiosResponse } from 'axios';
 import PlayerCard from '@/components/PlayerCard.vue';
 import { Icon } from '@iconify/vue';
 import router from '@/router';
+import { goToLoginIfNotLoggedIn } from '@/common/commonFunctions';
 
+const isLoading = ref(false);
 const dialogActive = ref(false);
 const dialogBadgeColor = ref('red');
 const dialogMessage = ref('');
-
 
 const duoRequestStore = useDuoRequestStore();
 const userStore = useUserStore();
 var duoRequests = ref<DuoRequestResponse[]>([]);
 
+const showOnlyPending = ref(true);
+
+//Caso não logado, volta para o /login
+goToLoginIfNotLoggedIn();
 
 onBeforeMount(async () => {
+    isLoading.value = true;
     const user = userStore.getUser();
     const duos = await duoRequestStore.getAllDuoRequestsByTeam(user.value?.team_id || 0) as AxiosResponse<DuoRequestResponse[]>;
+    
     if (duos.data && duos.data.length > 0) {
         duoRequests.value = duos.data;
     }
-
-    console.log(duoRequests);
+        
+    isLoading.value = false;
 });
 
 function trataStatus(statusString: string | undefined) {
@@ -44,18 +51,23 @@ function trataStatus(statusString: string | undefined) {
             return 'Desconsiderada'
         default:
             return 'Desconhecido'
-
     }
 }
 
 function updateDuoRequest(duoUpdate: DuoRequestUpdate) {
+    isLoading.value = true;
+
     duoRequestStore.updateDuoRequest(duoUpdate).then(() => {
+        isLoading.value = false;
+
         dialogBadgeColor.value = 'green';
         dialogMessage.value = 'Solicitação ' + trataStatus(duoUpdate.status) + ' com sucesso!'
         dialogActive.value = true;
+
         setTimeout(() => {
             router.go(0);
         }, 2000);
+
     }).catch((err) => {
         dialogBadgeColor.value = 'red';
         dialogMessage.value = err.response?.data?.message
@@ -74,13 +86,37 @@ function checkDenyEnabled(duoRequest: DuoRequestResponse) {
 function checkAcceptEnabled(duoRequest: DuoRequestResponse) {
     return duoRequest.status == 'PENDING' && duoRequest.player_origin?.team_id == userStore.getUser().value?.team_id;
 }
+
+function getPendingRequests() {
+    return duoRequests.value.filter(duo => duo.status === 'PENDING').length;
+}
+
 </script>
 <template>
     <MyHeader />
-    <div class="content">
+    <div id="mainReqs">
+        <v-card :loading="isLoading" v-if="isLoading">
+            <v-overlay :value="isLoading">
+                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            </v-overlay>
+            <v-card-title>
+                <h3>Recuperando Dados...</h3>
+            </v-card-title>
+        </v-card>    
+        <div id="title">
+            <h2>Minhas Requisições</h2>
+            <v-checkbox
+                label="Exibir somente requisições pendentes"
+                color="red"
+                density="compact"
+                hide-details
+                v-model="showOnlyPending"
+            ></v-checkbox>
+        </div>
+            <h2 v-if="showOnlyPending && getPendingRequests() === 0">Não há nenhuma requisição pendente para seus jogadores</h2>
         <ul>
             <li v-for="duoRequest in duoRequests">
-                <div class="request-info">
+                <div class="request-info" v-if="!showOnlyPending || (showOnlyPending && duoRequest.status === 'PENDING')">
                     <div class="player-cards">
                         <PlayerCard :edit="false" :show-duo-request="false"
                             :player="{ player: duoRequest.player_origin, details: false }"></PlayerCard>
@@ -124,6 +160,7 @@ function checkAcceptEnabled(duoRequest: DuoRequestResponse) {
             </li>
         </ul>
     </div>
+    <!-- Mensagem de erro -->
     <v-dialog v-model="dialogActive" transition="dialog-bottom-transition" width="auto">
         <template v-slot:default="{ isActive }">
             <v-card>
@@ -139,12 +176,20 @@ function checkAcceptEnabled(duoRequest: DuoRequestResponse) {
     </v-dialog>
 </template>
 <style scoped>
-.content {
-    position: relative;
+#mainReqs {
+    position: absolute;
     top: 16vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#mainReqs h2 {
+    color: var(--cor-vermelho);
+}
+
+#title {
+    margin-bottom: 2vh;
 }
 
 .icon-sport {

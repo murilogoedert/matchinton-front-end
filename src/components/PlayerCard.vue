@@ -58,12 +58,12 @@ function routeDuo() {
             <div id="topDetails">
                 <div>
                     <h3>{{ jogador.name }}</h3>
+                    <div class="line"></div>
                     <h5>{{ playerStore.calcAge(jogador.birth_date) }} anos</h5>
                     <h5>Categoria Principal</h5>
                 </div>
                 <Icon icon="mingcute:down-fill" color="#ff4c4e" class="icTop" @click="toggleDetails" />
             </div>
-            <div class="line"></div>
             <Icon icon="material-symbols:edit" class="icEdit" @click="editPlayer()" v-if="props.edit" />
         </div>
     </div>
@@ -137,7 +137,7 @@ function routeDuo() {
     margin-bottom: -11vh;
 
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     column-gap: 6vh;
 }
 
@@ -204,6 +204,7 @@ function routeDuo() {
     width: 80%;
 
     margin-top: 1vh;
+    margin-bottom: 1vh;
 
     border: 1px solid var(--cor-vermelho);
 }
