@@ -4,9 +4,11 @@ import MyHeader from '@/components/MyHeader.vue';
 import PlayerCard from '@/components/PlayerCard.vue';
 import router from '@/router';
 import { usePlayerStore, type Player, type PlayerHome } from '@/stores/player';
+import { useUserStore } from '@/stores/user';
 import { onMounted, ref } from 'vue';
 
 const playerStore = usePlayerStore();
+const userStore =  useUserStore();
 const players = ref<PlayerHome[]>([]);
 
 const isLoading = ref(false);
@@ -28,6 +30,8 @@ onMounted(() => {
     isLoading.value = true;
     error = false;
 
+    console.log(userStore.getUser().value);
+
     playerStore.getAllPlayers()
         .then((response) => {
             response.data.forEach((element: Player) => {
@@ -42,6 +46,8 @@ onMounted(() => {
             dialogBadgeColor.value = 'red';
             dialogMessage.value = 'Erro ao listar jogadores! ' + e;
             dialogActive.value = true;
+
+            console.log(e);
         })
 })
 

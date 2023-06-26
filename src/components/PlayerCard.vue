@@ -60,7 +60,7 @@ function routeDuo() {
                     <h3>{{ jogador.name }}</h3>
                     <div class="line"></div>
                     <h5>{{ playerStore.calcAge(jogador.birth_date) }} anos</h5>
-                    <h5>Categoria Principal</h5>
+                    <h5>{{ jogador.observation }}</h5>
                 </div>
                 <Icon icon="mingcute:down-fill" color="#ff4c4e" class="icTop" @click="toggleDetails" />
             </div>

@@ -55,7 +55,6 @@ export const useUserStore = defineStore('user', () => {
 
           setUser(user)
 
-          console.log(user)
           cookiesHandle.set('user', user)
         }
       }
