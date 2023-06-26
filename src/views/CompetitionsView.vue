@@ -6,6 +6,7 @@ import { useCompStore, type Competition } from '@/stores/competition';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
+import { format } from 'date-fns';
 
 const compStore = useCompStore();
 const competitions = ref<Competition[]>([]);
@@ -79,8 +80,8 @@ function editCompetition(id: number | undefined) {
                     <Icon icon="material-symbols:edit" class="iconList" @click="editCompetition(comp.id)"/>
                 </div>
                 <div>
-                    <h4>Início: {{ new Date(comp.start_date).toLocaleDateString() }}</h4>
-                    <h4>Término: {{ new Date(comp.end_date).toLocaleDateString() }}</h4>
+                    <h4>Início: {{ new Date(new Date(comp.start_date).setDate(new Date(comp.start_date).getDate() + 1)).toLocaleDateString() }}</h4>
+                    <h4>Término: {{ new Date(new Date(comp.end_date).setDate(new Date(comp.end_date).getDate() + 1)).toLocaleDateString() }}</h4>
                 </div>
             </div>
         </div>

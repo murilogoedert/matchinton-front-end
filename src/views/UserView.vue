@@ -39,7 +39,6 @@ onMounted(() => {
     teamStore.getMyTeam()
         .then((response) => {
             team.value = response.data;
-            console.log(team.value);
 
             response.data.forEach((element: Team) => {
                 playerStore.getPlayerByTeam(element.id)

@@ -10,18 +10,19 @@ import type { AxiosResponse } from 'axios';
 import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 import { format } from 'date-fns';
+import { useUserStore } from '@/stores/user';
 
 //Caso não logado, volta para o /login
 goToLoginIfNotLoggedIn();
 
 const playerStore = usePlayerStore();
+const userStore = useUserStore();
 const name = ref("");
 const dtNasc = ref("");
+const genero = ref("");
 const uf = ref("SC");
 const cidade = ref("");
-const camp = ref("");
 const obs = ref("");
-const catgs = ref<string[]>([]);
 
 const isLoading = ref(false);
 const dialogActive = ref(false);
@@ -40,9 +41,15 @@ const player = ref<Player>({
     city: "",
     observation: "",
     photo: "" ,
-    team_id: 0
+    team_id: 0,
+    gender: ""
 });
 const imgSearch = ref("");
+
+const genders = [
+    {title: 'Feminino', value: "FEM"},
+    {title: 'Masculino', value: "MAS"},
+];
 
 onMounted(() => {
     if (route.params.id) {
@@ -88,7 +95,7 @@ function handlerImg(event: Event) {
 
 function routePlayer() {
     if (!error) {
-        router.go(0);
+        router.push("/user");
     }
 }
 
@@ -102,9 +109,9 @@ function addPlayer() {
         state: uf.value,
         observation: obs.value,
         photo: '',
-        team_id: 4
+        team_id: userStore.getUser().value?.team_id,
+        gender: genero.value,
     };
-
     function errorDialog(e: any) {
         error = true;
         isLoading.value = false;
@@ -132,7 +139,7 @@ function addPlayer() {
 function editPlayer() {
     isLoading.value = true;
 
-    playerStore.updatePlayer(player.value)
+    playerStore.updatePlayer(player.value, userStore.getUser().value?.team_id)
         .then((response) => {
             isLoading.value = false;
             dialogBadgeColor.value = 'green';
@@ -145,6 +152,8 @@ function editPlayer() {
             dialogBadgeColor.value = 'red';
             dialogMessage.value = 'Erro ao alterar jogador! ' + e;
             dialogActive.value = true;
+
+            console.log(e);
         })
 }
 
@@ -163,9 +172,11 @@ function editPlayer() {
             <div class="rowCadPlayer">
                 <v-text-field type="date" name="dtNasc" label="Data de Nascimento" id="dtNasc" variant="solo"
                     v-model="dtNasc" class="medium"></v-text-field>
-                <v-file-input name="img" ref="inputFileReference" label="Adicionar Imagem" id="img-player"
-                    prepend-icon="mdi-camera" variant="solo" @change="handlerImg" class="medium img"></v-file-input>
+                <v-select label="Gênero" variant="solo" v-model="genero" class="medium"
+                    :items="genders" item-title="title" item-value="value"></v-select>                      
             </div>
+            <v-file-input name="img" ref="inputFileReference" label="Adicionar Imagem" id="img-player"
+                    prepend-icon="mdi-camera" variant="solo" @change="handlerImg" class="extraLong img"></v-file-input>
             <div class="rowCadPlayer">
                 <v-select label="Estado" :items="['SC', 'PR', 'RS', 'SP', 'RJ']" variant="solo" v-model="uf"
                     class="short"></v-select>

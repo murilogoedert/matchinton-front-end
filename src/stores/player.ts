@@ -11,10 +11,11 @@ export interface Player {
   birth_date: string
   city: string
   state: string
-  team_id: number
+  team_id?: number
   photo?: string
   created_at?: string
   updated_at?: string
+  gender: string,
 }
 
 export interface PlayerHome {
@@ -40,14 +41,16 @@ export const usePlayerStore = defineStore('player', () => {
     return doPost('player', player, true)
   }
 
-  function updatePlayer(player: Player) {
+  function updatePlayer(player: Player, teamId: number | undefined) {
+
     return doPatch(
       'player/' + player.id,
       {
         name: player.name,
         observation: player.observation,
         city: player.city,
-        state: player.state
+        state: player.state,
+        team_id: teamId
       },
       true
     )

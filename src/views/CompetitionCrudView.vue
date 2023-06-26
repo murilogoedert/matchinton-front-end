@@ -17,6 +17,7 @@ const catgs = ref<Category[]>([]);
 const name = ref("");
 const dtStart = ref("");
 const dtEnd = ref("");
+const tipo = ref("");
 const compCatgs = ref<string[]>([]);
 
 const isLoading = ref(false);
@@ -31,7 +32,14 @@ const competition = ref<getCompetition>({
     start_date: "2023-05-26T00:09:55.795Z",
     end_date: "2023-05-26T00:09:55.795Z",
     competition_category: [],
+    type: "",
 });
+
+const genders = [
+    {title: 'Feminino', value: "FEM"},
+    {title: 'Masculino', value: "MAS"},
+    {title: 'Misto', value: "MIS"}
+];
 
 onMounted(() => { 
     isLoading.value = true;
@@ -88,8 +96,9 @@ function addCompetition() {
     const comp: Competition = {
         name: name.value,
         start_date: dtStart.value,
-        end_date: dtStart.value,
-        categories: compCatgs.value
+        end_date: dtEnd.value,
+        categories: compCatgs.value,
+        type: tipo.value
     }
 
     compStore.addCompetition(comp)
@@ -110,7 +119,7 @@ function addCompetition() {
 
 function routePlayer() {
     if (!error) {
-        router.go(0);
+        router.push("/competitionList");
     }
 }
 
@@ -166,6 +175,10 @@ function editCompetition() {
                 <v-text-field 
                     type="date" name="dtEnd" label="Data de Término" id="dtEnd" variant="solo" class="medium" v-model="dtEnd"
                 ></v-text-field>
+                <v-select 
+                    label="Tipo" variant="solo" v-model="tipo" class="medium"
+                    :items="genders" item-title="title" item-value="value"
+                ></v-select>                
                 <VBtn class="mt-2 btn-cad" @click="addCompetition">Inserir Competição</VBtn>
             </div>
             <div class="colCadComp">
@@ -199,6 +212,10 @@ function editCompetition() {
                 <v-text-field 
                     type="date" name="dtEnd" label="Data de Término" v-model="competition.end_date" id="dtEnd" variant="solo" class="medium"
                 ></v-text-field>
+                <v-select 
+                    label="Tipo" variant="solo" v-model="competition.type" disabledclass="medium"
+                    :items="genders" item-title="title" item-value="value"
+                ></v-select>                  
             </div>
             <div class="colCadComp">
                 <div id="categories">

@@ -13,7 +13,8 @@ export interface Competition {
     name: string,
     start_date: string,
     end_date: string,
-    categories: string[]
+    categories: string[],
+    type: string,
 }
 
 export interface getCompetition {
@@ -21,7 +22,8 @@ export interface getCompetition {
     name: string,
     start_date: string,
     end_date: string,
-    competition_category: string[]
+    competition_category: string[],
+    type: string,    
 }
 
 export const useCompStore = defineStore('competition', () => {
@@ -43,6 +45,7 @@ export const useCompStore = defineStore('competition', () => {
             name: comp.name,
             start_date: new Date(comp.start_date).toISOString(),
             end_date: new Date(comp.end_date).toISOString(),
+            type: comp.type,
         }, true);
     }
 
