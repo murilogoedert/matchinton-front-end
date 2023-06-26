@@ -68,6 +68,7 @@ function toggleDetails(index: number) {
             </v-card-title>
         </v-card>        
         <h2>Jogadores Disponíveis</h2>
+        <h2 v-if="players.length == 0">Não há nenhum jogador disponível no momento</h2>
         <div id="players">
             <PlayerCard
                 v-for="player, index in players"
